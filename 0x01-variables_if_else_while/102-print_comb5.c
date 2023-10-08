@@ -28,11 +28,11 @@ int main(void)
 				putchar(first_digits % 10 + 48);
 				putchar(' ');
 
-				// Print the second two-digit number
+				/* Print the second two-digit number */
 				putchar(second_digits / 10 + 48);
 				putchar(second_digits % 10 + 48);
 
-				// Add a comma and space if not the last combination ==> [.., 97 99, 98 99]
+				/* Add a comma and space if not the last combination ==> [.., 97 99, 98 99] */
 				if (first_digits != 98 || second_digits != 99)
 				{
 					putchar(',');
@@ -44,5 +44,5 @@ int main(void)
 
 	putchar('\n');
 
-	return 0;
+	return (0);
 }

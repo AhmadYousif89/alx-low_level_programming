@@ -14,10 +14,10 @@ int main(void)
 
 	while (i < str_len)
 	{
-		putchar(str[i]);
+		_putchar(str[i]);
 		i++;
 	}
-	putchar('\n');
+	_putchar('\n');
 
 	return (0);
 }

@@ -9,16 +9,31 @@
  */
 void print_to_98(int num)
 {
-	int i;
 	int target = 98;
 
-	for (i = num; i <= target; i++)
+	while (num <= target)
 	{
-		printf("%d", i);
-		if (i < 98)
+		printf("%d", num);
+		if (num < target)
+			printf(", ");
+		else
 		{
-			printf(" ,");
+			printf("\n");
+			return;
 		}
+		num++;
 	}
-	_putchar('\n');
+
+	while (num >= target)
+	{
+		printf("%d", num);
+		if (num > target)
+			printf(", ");
+		else
+		{
+			printf("\n");
+			return;
+		}
+		num--;
+	}
 }

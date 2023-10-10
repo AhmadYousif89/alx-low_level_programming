@@ -1,5 +1,9 @@
 {
 	"files.associations": {
-		"unistd.h": "c"
+		"*.jsx": "javascriptreact",
+		"*.css": "tailwindcss",
+		"unistd.h": "c",
+		"stdio.h": "c",
+		"main.h": "c"
 	}
 }

@@ -8,15 +8,15 @@
 
 int main(void)
 {
-	unsigned long long num1 = 1, num2 = 2, next;
+	unsigned long fib1 = 1, fib2 = 2, next;
 	int count = 2;
 
-	printf("%llu, %llu, ", num1, num2);
+	printf("%lu, %lu, ", fib1, fib2);
 
 	while (count < 98)
 	{
-		next = num1 + num2;
-		printf("%llu", next);
+		next = fib1 + fib2;
+		printf("%lu", next);
 
 		count++;
 
@@ -29,8 +29,8 @@ int main(void)
 			printf("\n");
 		}
 
-		num1 = num2;
-		num2 = next;
+		fib1 = fib2;
+		fib2 = next;
 	}
 
 	return (0);

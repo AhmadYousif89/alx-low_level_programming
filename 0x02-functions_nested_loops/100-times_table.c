@@ -12,7 +12,7 @@ void print_times_table(int n)
 {
 	int x, y, multi;
 
-	if (n > 12)
+	if (n > 90)
 		return;
 
 	for (x = 0; x <= n; x++)

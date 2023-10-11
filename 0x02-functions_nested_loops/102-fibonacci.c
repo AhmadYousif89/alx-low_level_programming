@@ -8,19 +8,18 @@
 
 int main(void)
 {
-	int i, next;
+	int i;
 	int limit = 50;
-	int first = 0;
-	int second = 1;
+	long next, first = 0, second = 1;
 
-	for (i = 0; i <= limit; ++i)
+	for (i = 0; i < limit; i++)
 	{
-		printf("%d", first);
-		if (i < limit)
-			printf(", ");
 		next = first + second;
+		printf("%ld", next);
 		first = second;
 		second = next;
+		if (i < limit - 1)
+			printf(", ");
 	}
 	printf("\n");
 

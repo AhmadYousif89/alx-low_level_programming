@@ -17,11 +17,12 @@ int main(void)
 	{
 		printf("%d", first);
 		if (i < limit)
-			printf(", \n");
+			printf(", ");
 		next = first + second;
 		first = second;
 		second = next;
 	}
+	printf("\n");
 
 	return (0);
 }

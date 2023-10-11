@@ -8,14 +8,15 @@
 
 int main(void)
 {
-	unsigned long num1 = 1, num2 = 2, next, count = 2;
+	unsigned long long num1 = 1, num2 = 2, next;
+	int count = 2;
 
-	printf("%ld, %ld, ", num1, num2);
+	printf("%llu, %llu, ", num1, num2);
 
 	while (count < 98)
 	{
 		next = num1 + num2;
-		printf("%ld", next);
+		printf("%llu", next);
 
 		count++;
 

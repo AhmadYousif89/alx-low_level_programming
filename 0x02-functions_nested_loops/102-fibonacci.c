@@ -1,10 +1,10 @@
 #include <stdio.h>
+
 /**
  * main - Entry point.
  * Description: Print the Fibonacci number upto 50
  * Return: 0
  */
-#include <stdio.h>
 
 int main(void)
 {

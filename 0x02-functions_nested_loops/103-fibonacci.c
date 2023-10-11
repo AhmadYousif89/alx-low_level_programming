@@ -1,10 +1,10 @@
 #include <stdio.h>
+
 /**
  * main - Entry point.
  * Description: Prints the sum of even-value Fibonacci number not exceeding 4m
  * Return: 0
  */
-#include <stdio.h>
 
 int main(void)
 {

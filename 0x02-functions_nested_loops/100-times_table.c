@@ -1,5 +1,6 @@
-#include "main.h"
 #include <stdio.h>
+#include "main.h"
+
 /**
  * print_times_table - Print a grid of (n) by (n).
  * Description: Print out a grid based on a given number

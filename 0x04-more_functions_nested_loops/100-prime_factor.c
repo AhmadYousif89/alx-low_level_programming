@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 
 /**
  * main - Entry point
@@ -9,10 +8,8 @@
 
 int main(void)
 {
-	/*int i;*/
 	long num = 612852475143;
 	long largest_prime_factor = 2;
-	/*int squar_num = sqrt(num);*/
 
 	/* Loop over (num) until it reach (1) */
 	while (num > 1)

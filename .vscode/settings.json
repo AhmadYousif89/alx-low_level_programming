@@ -4,6 +4,7 @@
 		"*.css": "tailwindcss",
 		"unistd.h": "c",
 		"stdio.h": "c",
-		"main.h": "c"
+		"main.h": "c",
+		"random": "c"
 	}
 }

@@ -6,6 +6,7 @@
  * @n: number
  * Return: Void
  */
+
 void print_number(int n)
 {
 	unsigned int num;
@@ -23,6 +24,6 @@ void print_number(int n)
 	{
 		print_number(num / 10);
 	}
-	/* Print the last number of (num) */
+	/* Print the last number of (num) each time (print_number) is invoked */
 	_putchar((num % 10) + '0');
 }

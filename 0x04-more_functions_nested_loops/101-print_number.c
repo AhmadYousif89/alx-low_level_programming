@@ -9,7 +9,7 @@
 
 void print_number(int n)
 {
-	int reversed_n = 0;
+	unsigned int reversed_n = 0;
 
 	/* Case: n = 0 */
 	if (n == 0)
@@ -17,7 +17,7 @@ void print_number(int n)
 		_putchar('0');
 		return;
 	}
-	/* Case: n is negative = -98 */
+	/* Case: n is negative => -98 */
 	if (n < 0)
 	{
 		/* Print (-) and negate the number (n) */

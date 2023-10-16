@@ -1,15 +1,14 @@
-#include <stdio.h>
 #include "main.h"
 
 /**
  * rev_string - Reverse a string
  * @s: data of type char *
- * Return: str_Length
+ * Return: void
  */
 
 void rev_string(char *s)
 {
-	int i, j, len;
+	int i = 0, j, len;
 	int x;
 
 	while (s[i] != '\0')
@@ -19,7 +18,7 @@ void rev_string(char *s)
 
 	len = i - 1;
 
-	for (j = 0; j <= len; j++)
+	for (j = 0; j < len; j++)
 	{
 		x = *(s + len);		   /* value of last char */
 		*(s + len) = *(s + j); /* last char = first char */

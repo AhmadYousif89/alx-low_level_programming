@@ -1,12 +1,13 @@
 #include "main.h"
+#include <stdio.h>
 
 /**
- * puts2 - Print every other number using _putchar
+ * puts_half - Print half of a string
  * @str: data of type char *
  * Return: void
  */
 
-void puts2(char *str)
+void puts_half(char *str)
 {
 	int i = 0, j, len;
 
@@ -19,10 +20,11 @@ void puts2(char *str)
 
 	for (j = 0; j <= len; j++)
 	{
-		if (j % 2 == 0)
+		if (j == len / 2)
 		{
-			_putchar(str[j]);
+			break;
 		}
+		_putchar(str[j]);
 	}
 	_putchar('\n');
 }

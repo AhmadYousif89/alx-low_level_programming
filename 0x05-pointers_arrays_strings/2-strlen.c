@@ -3,17 +3,18 @@
 /**
  * _strlen - Return the length of string
  * @s: pointer of type char *
- * Return: str_Length
+ * Return: str_Len
  */
 
 int _strlen(char *s)
 {
-	int i, str_length;
+	int i, str_len;
 
-	for (i = 0; s[i] != '\0'; i++)
+	while (s[i] != '\0')
 	{
-		str_length++;
+		i++;
 	}
+	str_len = i;
 
-	return (str_length);
+	return (str_len);
 }

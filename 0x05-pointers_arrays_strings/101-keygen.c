@@ -3,7 +3,7 @@
 #include <time.h>
 
 /* The length of the password */
-#define PASSWORD_LENGTH 12
+#define PASSWORD_LENGTH 20
 
 int i, random_index;
 char characters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
@@ -11,11 +11,7 @@ char characters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456
 char *generate_password()
 {
 	char *password = malloc(PASSWORD_LENGTH + 1);
-	if (password == NULL)
-	{
-		printf("Error allocating memory for password.\n");
-		return NULL;
-	}
+
 	/* `rand()` function will give the current time on every execution */
 	srand(time(NULL));
 
@@ -33,7 +29,7 @@ char *generate_password()
 int main()
 {
 	char *password = generate_password();
-	printf("%s\n", password);
+	printf("%s", password);
 	/* Free the memory allocated for the password */
 	free(password);
 

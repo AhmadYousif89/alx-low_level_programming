@@ -10,17 +10,19 @@
 
 int _atoi(char *s)
 {
-	unsigned result = 0;
+	unsigned int result = 0;
 	int sign = 1, i = 0;
 
-	while (*s != '\0' && !(s[i] >= '0' && s[i] <= '9'))
+	/* Skip non-digit characters */
+	while (s[i] != '\0' && !(s[i] >= '0' && s[i] <= '9'))
 	{
+		/* Negate the final result if we encounter (-) sign */
 		if (s[i] == '-')
 			sign = sign * -1;
 		i++;
 	}
 
-	while (*s != '\0' && (s[i] >= '0' && s[i] <= '9'))
+	while (s[i] != '\0' && (s[i] >= '0' && s[i] <= '9'))
 	{
 		/* Convert string to integer */
 		result = result * 10;

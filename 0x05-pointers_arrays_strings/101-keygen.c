@@ -10,7 +10,7 @@
 int main(void)
 {
 	int j, random;
-	int i = 0, ascii = 2500;
+	int i = 0, ascii = 2772;
 	char password[50]; /* Password length */
 
 	srand(time(NULL));

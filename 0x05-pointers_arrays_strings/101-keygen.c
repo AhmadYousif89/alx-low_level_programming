@@ -1,27 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
-int PASSWORD_LENGTH = 20;
-int i, random_index;
-char characters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+/**
+ * main - print password.
+ *
+ * Return: 0.
+ */
 
-int main()
+int main(void)
 {
+	int ascii = 2772, i = 0, j, random;
 	char password[100];
+	time_t t;
 
-	/* `rand()` function will give the current time on every execution */
-	srand(time(NULL));
-
-	for (i = 0; i < PASSWORD_LENGTH; i++)
+	srand((int)time(&t));
+	while (ascii > 126)
 	{
-		random_index = rand() % (sizeof(characters) / sizeof(char));
-		password[i] = characters[random_index];
+		random = rand() % 126;
+		password[i] = random;
+		ascii -= random;
+		i++;
 	}
-	/* Add the null character at the end of the password */
-	password[PASSWORD_LENGTH] = '\0';
+	if (ascii > 0)
+		password[i] = ascii;
+	else
+	{
+		i--;
+	}
 
-	printf("%s", password);
-
-	return 0;
+	for (j = 0; j <= i; j++)
+	{
+		printf("%c", password[j]);
+	}
+	return (0);
 }

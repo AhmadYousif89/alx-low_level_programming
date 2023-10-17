@@ -1,21 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <math.h>
 
 /**
- * main - print password.
- *
+ * main - Generate random password.
  * Return: 0.
  */
 
 int main(void)
 {
-	int ascii = 2772, i = 0, j, random;
-	char password[100];
-	time_t t;
+	int j, random;
+	int i = 0, ascii = 2500;
+	char password[50]; /* Password length */
 
-	srand((int)time(&t));
+	srand(time(NULL));
 	while (ascii > 126)
 	{
 		random = rand() % 126;

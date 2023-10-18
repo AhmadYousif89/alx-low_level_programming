@@ -3,7 +3,7 @@
 #include "main.h"
 
 /**
- * _strcpy - Append a string to another string
+ * _strcat - Append a string to another string
  * @dest: pointer of type char *
  * @src: pointer of type char *
  * Return: the pointer to dest.

@@ -2,7 +2,7 @@
 #include "main.h"
 
 /**
- * _strncpy - Compare two strings
+ * _strcmp - Compare two strings
  * @s1: pointer of type char *
  * @s2: pointer of type char *
  * Return: the ascii difference number.

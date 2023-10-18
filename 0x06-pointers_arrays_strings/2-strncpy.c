@@ -3,7 +3,7 @@
 #include "main.h"
 
 /**
- * _strncpy - Copy multiple strings based on a given number
+ * _strncpy - Copy strings based on a given number
  * @dest: pointer of type char *
  * @src: pointer of type char *
  * @n: number of type int
@@ -13,19 +13,18 @@
 char *_strncpy(char *dest, char *src, int n)
 {
 	int i;
-	int destLen = strlen(dest);
 
 	for (i = 0; src[i] != '\0'; i++)
 	{
-		if (dest[destLen] == '\n')
-			break;
-		else if (i < n)
-		{
+		if (i < n)
 			dest[i] = src[i];
-		}
 	}
-
-	dest[destLen + i] = '\0';
+	/* If the length of src is less than (n), add null-terminate to dest */
+	while (i < n)
+	{
+		dest[i] = '\0';
+		++i;
+	}
 
 	return (dest);
 }

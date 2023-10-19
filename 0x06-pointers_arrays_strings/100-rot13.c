@@ -9,22 +9,21 @@
 
 char *rot13(char *s)
 {
-	int i = 0;
-	char *p = s;
-	char alphabet[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	int i = 0, j;
+	char alphabet[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; /* 52 letter */
 	char alpha_13[] = "nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM";
 
-	while (*s)
+	while (s[i])
 	{
-		for (i = 0; i <= 52; i++)
+		for (j = 0; j <= 52; j++)
 		{
-			if (alphabet[i] == *s)
+			if (alphabet[j] == s[i])
 			{
-				*s = alpha_13[i];
+				s[i] = alpha_13[j];
 				break;
 			}
 		}
-		s++;
+		i++;
 	}
-	return (p);
+	return (s);
 }

@@ -12,8 +12,8 @@
  */
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-	int i, n1_len = strlen(n1), n2_len = strlen(n2);
-	int big_len, n1_digit, n2_digit, carry;
+	int i = 0, n1_len = strlen(n1), n2_len = strlen(n2);
+	int big_len = 0, n1_digit = 0, n2_digit = 0, carry = 0;
 	char *buffer = r;
 
 	if (n1_len > n2_len)

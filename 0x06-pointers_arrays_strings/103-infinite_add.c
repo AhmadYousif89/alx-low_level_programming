@@ -35,7 +35,7 @@ char *infinite_add(char *n1, char *n2, char *r, int size_r)
 	}
 
 	/* Case we have a carry over, store it in the most significant digit */
-	buffer[big_len] = '\0';
+	buffer[big_len + 1] = '\0';
 	if (size_r < big_len + 2)
 		return (0);
 

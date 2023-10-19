@@ -10,12 +10,12 @@
 char *rot13(char *s)
 {
 	int i = 0, j;
-	char alphabet[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; /* 52 letter */
+	char alphabet[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	char alpha_13[] = "nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM";
 
 	while (s[i])
 	{
-		for (j = 0; j <= 52; j++)
+		for (j = 0; j <= 52; j++) /* 52 letter */
 		{
 			if (alphabet[j] == s[i])
 			{

@@ -40,7 +40,7 @@ void print_buffer(char *b, int size)
 			if (i + j < size)
 			{ /* Valid range for Ascii characters [32 .. 126] */
 				if (buffer[i + j] >= 32 && buffer[i + j] <= 126)
-					printf("%c", b[i + j]); /* This is a etc... */
+					printf("%c", buffer[i + j]); /* This is a etc... */
 				else
 					printf(".");
 			}

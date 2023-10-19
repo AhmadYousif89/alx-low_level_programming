@@ -42,7 +42,10 @@ char *infinite_add(char *n1, char *n2, char *r, int size_r)
 			return (0);
 
 		while (big_len-- >= 0)
+		{
+			big_len--;
 			buffer[big_len] = buffer[big_len];
+		}
 
 		buffer[0] = carry + '0';
 	}

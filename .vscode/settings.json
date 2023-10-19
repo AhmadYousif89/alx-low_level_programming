@@ -7,6 +7,7 @@
 		"main.h": "c",
 		"random": "c",
 		"limits.h": "c",
-		"string.h": "c"
+		"string.h": "c",
+		"ctype.h": "c"
 	}
 }

@@ -1,52 +1,49 @@
 #include <stdio.h>
 #include "main.h"
 
+int is_printable(int c)
+{
+	return (c >= 32 && c <= 126);
+}
+
 /**
- * print_buffer - .
+ * print_buffer - Print string to buffer
  * @b: pointer typr char *
  * @size: size of buffer type number
  * Return: void
  */
 void print_buffer(char *b, int size)
 {
-	int i, j;
-	char *buffer = b;
+	int start, i, end;
 
 	if (size <= 0)
-	{
 		printf("\n");
-		return;
-	}
-	for (i = 0; i < size; i += 10)
+	else
 	{
-		printf("%08x: ", i); /* 00000000: | 0000000a: | etc... */
-		for (j = 0; j < 10; ++j)
+		for (start = 0; start < size; start += 10)
 		{
-			if (i + j < size)
+			printf("%.8x:", start);
+			for (i = start; i < start + 10; i++)
 			{
-				printf("%02x", (unsigned char)buffer[i + j]); /* 5468 6973 2069 etc... */
-				if (j % 2 == 1)
+				if (i % 2 == 0)
 					printf(" ");
-			}
-			else
-			{
-				printf("  ");
-				if (j % 2 == 1)
-					printf(" ");
-			}
-		}
-		for (j = 0; j < 10; ++j)
-		{
-			if (i + j < size)
-			{ /* Valid range for Ascii characters [32 .. 126] */
-				if (buffer[i + j] >= 32 && buffer[i + j] <= 126)
-					printf("%c", buffer[i + j]); /* This is a etc... */
+				if (i < size)
+					printf("%.2x", *(b + i));
 				else
-					printf(".");
+					printf("  ");
 			}
-			else
-				printf(" ");
+			printf(" ");
+
+			for (end = start; end < start + 10; end++)
+			{
+				if (end >= size)
+					break;
+				if (*(b + end) < 32 || *(b + end) > 126)
+					printf("%c", '.');
+				else
+					printf("%c", *(b + end));
+			}
+			printf("\n");
 		}
-		printf("\n");
 	}
 }

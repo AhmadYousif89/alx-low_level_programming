@@ -2,11 +2,11 @@
 #include "main.h"
 
 /**
- * is_printable - .
- * @c: number
+ * is_printable - Check if given char is a valid printable Ascii
+ * @c: char
  * Return: int
  */
-int is_printable(int c)
+int is_printable(char c)
 {
 	return (c >= 32 && c <= 126);
 }
@@ -19,7 +19,7 @@ int is_printable(int c)
  */
 void print_buffer(char *b, int size)
 {
-	int start, i, end;
+	int start, i, j;
 
 	if (size <= 0)
 		printf("\n");
@@ -39,14 +39,14 @@ void print_buffer(char *b, int size)
 			}
 			printf(" ");
 
-			for (end = start; end < start + 10; end++)
+			for (j = start; j < start + 10; j++)
 			{
-				if (end >= size)
+				if (j >= size)
 					break;
-				if (*(b + end) < 32 || *(b + end) > 126)
-					printf("%c", '.');
+				if (is_printable(*(b + j)))
+					printf("%c", *(b + j));
 				else
-					printf("%c", *(b + end));
+					printf(".");
 			}
 			printf("\n");
 		}

@@ -3,6 +3,7 @@
 
 /**
  * is_printable - .
+ * @c: number
  * Return: int
  */
 int is_printable(int c)

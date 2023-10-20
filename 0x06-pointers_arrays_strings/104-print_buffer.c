@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include "main.h"
 
+/**
+ * is_printable - .
+ * Return: int
+ */
 int is_printable(int c)
 {
 	return (c >= 32 && c <= 126);

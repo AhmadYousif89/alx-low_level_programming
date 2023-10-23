@@ -10,8 +10,8 @@ char *_strchr(char *s, char c)
 {
 	while (*s != '\0')
 	{
+		/* Return the pointer from the position where 'c' is found */
 		if (*s == c)
-			/* Return the pointer from the position where 'c' is found */
 			return (s);
 		s++;
 	}

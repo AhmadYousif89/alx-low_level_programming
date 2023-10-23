@@ -4,8 +4,8 @@
  * _strpbrk - Search a string for any set of bytes
  * @s: pointer type char
  * @accept: pointer type char
- * Return: the number of bytes in the initial segment of s
- * which consist only of bytes from accept
+ * Return: Pointer to the byte in (s) that matches one of the bytes in accept
+ * or NULL
  */
 char *_strpbrk(char *s, char *accept)
 {

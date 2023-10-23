@@ -1,21 +1,22 @@
 #include <stdio.h>
 
 /**
- * _memset - Print to memory string of buffer
+ * _strchr - Print a string from a given position
  * @s: pointer type char
- * @b: char
- * @n: number
+ * @c: char
  * Return: Pointer to the memory area (s)
  */
-char *_memset(char *s, char b, unsigned int n)
+char *_strchr(char *s, char c)
 {
 	unsigned int i;
 
 	i = 0;
-	while (i < n)
+	while (s[i] != '\0')
 	{
-		s[i] = b;
+		if (s[i] == c)
+			/* Return the pointer from the position where 'c' is found */
+			return (&s[i]);
 		i++;
 	}
-	return (s);
+	return (NULL);
 }

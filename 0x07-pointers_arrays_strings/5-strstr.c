@@ -8,16 +8,22 @@
  */
 char *_strstr(char *haystack, char *needle)
 {
-	int i;
-
 	while (*haystack != '\0')
 	{
-		for (i = 0; needle[i] != '\0'; i++)
+		char *h = haystack;
+		char *n = needle;
+
+		while (*n != '\0' && *h == *n)
 		{
-			if (*haystack == needle[i])
-				return (needle);
+			h++;
+			n++;
 		}
+		/* Return the pointer to the beginning of the located substring */
+		if (*n == '\0')
+			return haystack;
+
 		haystack++;
 	}
+
 	return (NULL);
 }

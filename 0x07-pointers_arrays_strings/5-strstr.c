@@ -20,7 +20,7 @@ char *_strstr(char *haystack, char *needle)
 		}
 		/* Return the pointer to the beginning of the located substring */
 		if (*n == '\0')
-			return haystack;
+			return (haystack);
 
 		haystack++;
 	}

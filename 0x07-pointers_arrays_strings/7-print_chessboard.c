@@ -2,8 +2,8 @@
 
 /**
  * print_chessboard - Print the chessboard
- * @a: pointer type char
- * Return: Pointer to the beginning of the located substring, or NULL
+ * @a: pointer type char []
+ * Return: void
  */
 void print_chessboard(char (*a)[8])
 {

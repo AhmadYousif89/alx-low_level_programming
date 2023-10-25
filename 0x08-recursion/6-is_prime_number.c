@@ -1,18 +1,17 @@
-#include <stdio.h>
-#include "main.h"
-
 /**
  * is_prime_number - Check for prime number | recursion
- * @n: number to sqrt
+ * @n: number to check
  * Return: 1 or 0
  */
 int is_prime_number(int n)
 {
-	int x;
+	int start = 2;
 
-	if (n > 1 && n % 2 != 0)
-		x = 1;
-	else
-		x = 0;
-	return (x);
+	if (n <= 1 || n % start == 0)
+		return (0);
+	if (n > 1 && n % start != 0)
+		return (1);
+
+	start++;
+	return (is_prime_number(n + 1));
 }

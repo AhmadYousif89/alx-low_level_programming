@@ -1,3 +1,5 @@
+#include <string.h>
+
 /**
  * _helper - Check if a string is palindrome
  * @s: pointer type char
@@ -22,10 +24,7 @@ int _helper(char *s, int start, int end)
  */
 int is_palindrome(char *s)
 {
-	int length = 0;
-
-	while (s[length] > '\0')
-		length++;
+	int length = strlen(s);
 
 	return (_helper(s, 0, length));
 }

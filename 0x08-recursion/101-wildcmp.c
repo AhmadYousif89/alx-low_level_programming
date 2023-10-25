@@ -1,4 +1,3 @@
-#include <stdio.h>
 /**
  * wildcmp - Compares two strings and return a number | recursion
  * @s1: pointer type char

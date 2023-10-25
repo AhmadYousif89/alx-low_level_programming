@@ -3,7 +3,7 @@
 
 /**
  * factorial - Get factorial of number | recursion
- * @s: pointer type char
+ * @n: number to factor
  * Return: void
  */
 int factorial(int n)

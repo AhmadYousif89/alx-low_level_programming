@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include "main.h"
-
 /**
  * get_sqrt - Calc the square root of a number
  * @n: integer number

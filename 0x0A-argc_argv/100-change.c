@@ -17,12 +17,12 @@ int main(int argc, char *argv[])
 		printf("Error\n");
 		return (1);
 	}
-	if (arg <= 1)
+	arg = atoi(argv[1]);
+	if (arg <= 0)
 	{
 		printf("0\n");
 		return (0);
 	}
-	arg = atoi(argv[1]);
 	while (i < sizeof(coins) / sizeof(int))
 	{
 		c = c + (arg / coins[i]);

@@ -1,33 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 /**
- * main - Print the result of adding two numbers
- * @argc: count of args
- * @argv: array of char*
- * Return: (0) if two args provided, (1) otherwise
+ * is_positive_number - Check if a string is a positive number
+ * @str: String to be checked
+ * Return: 1 if positive number, 0 otherwise
+ */
+int is_positive_number(char *str)
+{
+	int i = 0;
+	while (str[i])
+	{
+		if (!isdigit(str[i]))
+			return 0;
+		i++;
+	}
+	return 1;
+}
+
+/**
+ * main - Add positive numbers passed as command line arguments
+ * @argc: Argument count
+ * @argv: Argument vector
+ * Return: 0 if successful, 1 if error
  */
 int main(int argc, char *argv[])
 {
-	int i, arg, add = 0;
+	int i, sum = 0;
 
-	if (argc < 2)
-	{
+	if (argc == 1)
 		printf("0\n");
-		return (0);
-	}
-
-	for (i = 0; i < argc; i++)
+	else
 	{
-		arg = atoi(argv[i]);
-		if (arg == '0')
+		for (i = 1; i < argc; i++)
 		{
-			printf("Error\n");
-			return (1);
+			if (is_positive_number(argv[i]))
+				sum += atoi(argv[i]);
+			else
+			{
+				printf("Error\n");
+				return 1;
+			}
 		}
-		add += arg;
+		printf("%d\n", sum);
 	}
-	printf("%d\n", add);
 
-	return (0);
+	return 0;
 }

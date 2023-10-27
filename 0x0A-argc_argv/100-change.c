@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 		printf("0\n");
 		return (0);
 	}
-	while (i < sizeof(coins) / sizeof(int))
+	while (i < 5)
 	{
 		c = c + (arg / coins[i]);
 		arg = arg % coins[i];

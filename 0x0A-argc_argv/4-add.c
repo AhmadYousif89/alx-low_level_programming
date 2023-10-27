@@ -10,13 +10,14 @@
 int is_positive_number(char *str)
 {
 	int i = 0;
+
 	while (str[i])
 	{
 		if (!isdigit(str[i]))
-			return 0;
+			return (0);
 		i++;
 	}
-	return 1;
+	return (1);
 }
 
 /**
@@ -40,11 +41,11 @@ int main(int argc, char *argv[])
 			else
 			{
 				printf("Error\n");
-				return 1;
+				return (1);
 			}
 		}
 		printf("%d\n", sum);
 	}
 
-	return 0;
+	return (0);
 }

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 /**
  * str_concat - Concatenate two strings by dynamically allocating memory
  * @s1: pointer type char
@@ -10,20 +11,32 @@
  */
 char *str_concat(char *s1, char *s2)
 {
-	char *result;
+	int s1Len = 0, s2Len = 0, i = 0;
+	char *ps;
 
 	if (s1 == NULL)
 		s1 = "";
 	if (s2 == NULL)
 		s2 = "";
 
-	result = malloc(strlen(s1) + strlen(s2) + 1);
+	while (s1[s1Len] != '\0')
+		s1Len++;
+	while (s2[s2Len] != '\0')
+		s2Len++;
 
-	if (result == NULL)
+	ps = malloc(s1Len + s2Len + 1);
+
+	if (ps == NULL)
 		return (NULL);
 
-	strcpy(result, s1);
-	strcat(result, s2);
+	while (s1[i] != '\0')
+	{
+		ps[i] = s1[i];
+		i++;
+	}
+	i = 0;
+	while (s2[i] != '\0')
+		ps[s1Len++] = s2[i++];
 
-	return (result);
+	return (ps);
 }

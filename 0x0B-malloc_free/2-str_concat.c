@@ -1,6 +1,5 @@
 #include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
+
 /**
  * str_concat - Concatenate two strings by dynamically allocating memory
  * @s1: pointer type char

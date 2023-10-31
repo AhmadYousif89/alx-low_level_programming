@@ -10,33 +10,23 @@
  */
 int **alloc_grid(int width, int height)
 {
-	int **arr;
+	int **grid;
 	int i;
 
-	if (width == 0 || height == 0)
+	if (width <= 0 || height <= 0)
 		return (NULL);
 
 	/* Allocate memory for the rows */
-	arr = (int **)malloc(sizeof(int *) * height);
+	grid = (int **)malloc(sizeof(int *) * height);
 
-	if (arr == NULL)
+	if (grid == NULL) /* Memory allocation failed */
 		return (NULL);
 
 	/* Allocate memory for the columns */
 	for (i = 0; i < height; i++)
 	{
-		arr[i] = (int *)malloc(sizeof(int) * width);
-		if (arr[i] == NULL)
-		{
-			while (i >= 0)
-			{
-				free(arr[i]);
-				i--;
-			}
-			free(arr);
-			return (NULL);
-		}
+		grid[i] = (int *)malloc(sizeof(int) * width); /* Init with (0) */
 	}
 
-	return (arr);
+	return (grid);
 }

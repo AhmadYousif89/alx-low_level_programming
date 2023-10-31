@@ -68,13 +68,12 @@ char **split_words(char *str, int wc)
 					return (NULL);
 				}
 				strncpy(words[word_idx], str + word_start, word_len);
-				words[word_idx][word_len] = '\0';
-				word_idx++;
+				words[word_idx++][word_len] = '\0';
 			}
 			word_start = i + 1;
 		}
 	}
-	if (i > word_start)
+	if (i > word_start) /* Handle last word in (str) */
 	{
 		word_len = i - word_start;
 		words[word_idx] = malloc((word_len + 1) * sizeof(char));

@@ -1,16 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-
-/**
- * is_special - Checks for special characters
- * @c: char
- * Return: bool
- */
-bool is_special(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\0');
-}
+#include <string.h>
 
 /**
  * count_words - Track the word count in a given string
@@ -19,53 +9,21 @@ bool is_special(char c)
  */
 int count_words(char *str)
 {
-	int word_count = 0;
-	bool in_word = false;
+	int count = 0, is_word = 0;
 
 	while (*str)
 	{
-		if (!is_special(*str))
+		if (*str == ' ')
+			is_word = 0;
+		else if (is_word == 0)
 		{
-			if (!in_word)
-			{
-				in_word = true;
-				word_count++;
-			}
+			is_word = 1;
+			count++;
 		}
-		else
-			in_word = false;
 		str++;
 	}
 
-	return (word_count);
-}
-
-/**
- * extract_word - Extract word from a given string
- * @str: pointer type char
- * Return: pointer to the given string
- */
-char *extract_word(char *str)
-{
-	char *word_start, *word;
-	int word_len = 0;
-
-	while (is_special(*str)) /* Skip special characters */
-		str++;
-
-	word_start = str; /* The starting position of the pointer */
-
-	/* Move the pointer to get the length of the word*/
-	while (*str && !is_special(*str))
-		str++;
-
-	word_len = str - word_start;
-	word = (char *)malloc((word_len + 1) * sizeof(char));
-	if (word == NULL)
-		return (NULL);
-
-	snprintf(word, word_len + 1, "%s", word_start);
-	return (word);
+	return (count);
 }
 
 /**
@@ -75,7 +33,7 @@ char *extract_word(char *str)
  */
 char **strtow(char *str)
 {
-	int word_cnt = 0, word_idx = 0;
+	int i, j, word_cnt = 0, word_idx = 0, word_start = 0, is_word = 0;
 	char **words;
 
 	if (str == NULL || *str == '\0')
@@ -85,30 +43,54 @@ char **strtow(char *str)
 	if (word_cnt == 0)
 		return (NULL);
 
-	words = (char **)malloc((word_cnt + 1) * sizeof(char *)); /* ptr size */
-	/* Allocation failed */
+	words = malloc((word_cnt + 1) * sizeof(char *));
 	if (words == NULL)
 		return (NULL);
 
-	while (*str)
+	for (i = 0; str[i] != '\0'; i++)
 	{
-		char *word = extract_word(str);
-		/* Free allocated memory and return NULL if extraction fails */
-		if (word == NULL)
+		if (str[i] == ' ')
 		{
-			for (int i = 0; i < word_idx; i++)
-				free(words[i]);
+			if (is_word)
+			{
+				words[word_idx] = malloc((i - word_start + 1) * sizeof(char));
+				if (words[word_idx] == NULL)
+				{
+					for (j = 0; j < word_idx; j++)
+						free(words[j]);
+					free(words);
+					return (NULL);
+				}
+
+				strncpy(words[word_idx], str + word_start, i - word_start);
+				words[word_idx][i - word_start] = '\0';
+				word_idx++;
+				is_word = 0;
+			}
+		}
+		else if (!is_word)
+		{
+			word_start = i;
+			is_word = 1;
+		}
+	}
+
+	/* Handle the last word */
+	if (is_word)
+	{
+		words[word_idx] = malloc((strlen(str + word_start) + 1) * sizeof(char));
+		if (words[word_idx] == NULL)
+		{
+			for (j = 0; j <= word_idx; j++)
+				free(words[j]);
 			free(words);
 			return (NULL);
 		}
-		words[word_idx] = word;
-		word_idx++;
-		/* Move to the next word */
-		while (*str && !is_special(*str))
-			str++;
-	}
 
-	words[word_idx] = NULL; /* Set the last element to null */
+		strcpy(words[word_idx], str + word_start);
+		word_idx++;
+	}
+	words[word_idx] = NULL;
 
 	return (words);
 }

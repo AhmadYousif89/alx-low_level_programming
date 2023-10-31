@@ -8,6 +8,7 @@
 		"random": "c",
 		"limits.h": "c",
 		"string.h": "c",
-		"ctype.h": "c"
+		"ctype.h": "c",
+		"stdlib.h": "c"
 	}
 }

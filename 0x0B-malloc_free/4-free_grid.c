@@ -22,6 +22,4 @@ void free_grid(int **grid, int height)
 			return (NULL);
 		}
 	}
-
-	return (grid);
 }

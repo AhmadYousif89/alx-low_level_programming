@@ -2,19 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-/**
- * free_words - Free the memory allocated for words array
- * @words: array of strings
- * @word_idx: index to free up to
- */
-void free_words(char **words, int word_idx)
-{
-	int i;
-
-	for (i = 0; i < word_idx; i++)
-		free(words[i]);
-	free(words);
-}
+int count_words(char *str);
+char **split_words(char *str, int wc);
+void *free_words(char **words, int word_idx);
 
 /**
  * count_words - Track the word count in a given string
@@ -48,46 +38,61 @@ int count_words(char *str)
  */
 char **split_words(char *str, int wc)
 {
-	int i, word_idx = 0, word_start = 0, word_len = 0;
+	int i, word_idx = 0, word_start = 0, word_length = 0;
 	char **words;
 
 	words = malloc((wc + 1) * sizeof(char *));
 	if (words == NULL)
-		return (NULL);
+		return (NULL); /* Allocation failur */
+
 	for (i = 0; str[i] != '\0'; i++)
 	{
-		if (str[i] == ' ')
+		if (str[i] == ' ') /* Case we have an empty space */
 		{
 			if (i > word_start)
 			{
-				word_len = i - word_start;
-				words[word_idx] = malloc((word_len + 1) * sizeof(char));
+				word_length = i - word_start;
+				words[word_idx] = malloc((word_length + 1) * sizeof(char));
 				if (words[word_idx] == NULL)
-				{
-					free_words(words, word_idx);
-					return (NULL);
-				}
-				strncpy(words[word_idx], str + word_start, word_len);
-				words[word_idx++][word_len] = '\0';
+					free_words(words, word_idx); /* Free memory on alloc fail */
+
+				strncpy(words[word_idx], str + word_start, word_length);
+				words[word_idx][word_length] = '\0';
+				word_idx++;
 			}
-			word_start = i + 1;
+			word_start = i + 1; /* Change the starting pos of the next word */
 		}
 	}
 	if (i > word_start) /* Handle last word in (str) */
 	{
-		word_len = i - word_start;
-		words[word_idx] = malloc((word_len + 1) * sizeof(char));
+		word_length = i - word_start;
+		words[word_idx] = malloc((word_length + 1) * sizeof(char));
 		if (words[word_idx] == NULL)
-		{
-			free_words(words, word_idx);
-			return (NULL);
-		}
-		strncpy(words[word_idx], str + word_start, word_len);
-		words[word_idx][word_len] = '\0';
+			free_words(words, word_idx); /* Free memory on alloc fail */
+
+		strncpy(words[word_idx], str + word_start, word_length);
+		words[word_idx][word_length] = '\0';
 		word_idx++;
 	}
-	words[word_idx] = NULL;
+	words[word_idx] = NULL; /* Set the last char as NULL */
 	return (words);
+}
+
+/**
+ * free_words - Free the memory allocated for words array
+ * @words: array of strings
+ * @word_idx: word position to free up
+ * Return: NULL
+ */
+void *free_words(char **words, int word_idx)
+{
+	int i;
+
+	for (i = 0; i < word_idx; i++)
+		free(words[i]);
+	free(words);
+
+	return (NULL);
 }
 
 /**

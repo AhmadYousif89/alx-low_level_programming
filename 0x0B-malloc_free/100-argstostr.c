@@ -17,7 +17,7 @@ char *argstostr(int ac, char **av)
 		return (NULL);
 	/* Get total length of all args including spaces and newline */
 	for (i = 0; i < ac; i++, total_args_len++)
-		total_args_len += strlen(av[i]) + 1; /* (+1) for '\n' */
+		total_args_len += strlen(av[i]);
 	/* Allocate memory for the new string */
 	str = (char *)malloc((sizeof(char) * total_args_len) + 1);
 	/* Allocation failed */
@@ -29,7 +29,7 @@ char *argstostr(int ac, char **av)
 		for (j = 0; av[i][j] != '\0'; j++, cur_pos++)
 			str[cur_pos] = av[i][j];
 
-		str[cur_pos] = '\n';
+		str[cur_pos] = '\n'; /* Add newline after every arg */
 		cur_pos++;
 	}
 	str[cur_pos] = '\0'; /* Add the null terminator after last char */

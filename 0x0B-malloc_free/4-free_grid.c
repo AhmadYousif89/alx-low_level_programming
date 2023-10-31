@@ -9,16 +9,10 @@
 void free_grid(int **grid, int height)
 {
 	int i;
+
 	for (i = 0; i < height; i++)
 	{
-		if (grid[i] == NULL)
-		{ /* Free previously allocated memory before returning NULL */
-			while (i >= 0)
-			{
-				free(grid[i]);
-				i--;
-			}
-			free(grid);
-		}
+		free(grid[i]);
 	}
+	free(grid);
 }

@@ -10,7 +10,7 @@
  */
 char *argstostr(int ac, char **av)
 {
-	int i, j, total_args_len, cur_pos = 0;
+	int i, j, cur_pos = 0, total_args_len = 0;
 	char *str;
 
 	if (ac == 0 || av == NULL)
@@ -19,7 +19,7 @@ char *argstostr(int ac, char **av)
 	for (i = 0; i < ac; i++, total_args_len++)
 		total_args_len += strlen(av[i]);
 	/* Allocate memory for the new string */
-	str = (char *)malloc((sizeof(char) * total_args_len) + 1);
+	str = (char *)malloc(sizeof(char) * total_args_len + 1);
 	/* Allocation failed */
 	if (str == NULL)
 		return (NULL);

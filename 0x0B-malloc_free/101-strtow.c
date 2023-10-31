@@ -27,62 +27,68 @@ int count_words(char *str)
 }
 
 /**
- * strtow - Splits a string into words.
+ * split_words - Splits a string into words.
  * @str: pointer type char
+ * @wc: word count
  * Return: pointer to the given string or Null on fails or str = null | ""
  */
-char **strtow(char *str)
+char **split_words(char *str, int wc)
 {
-	int i, j, word_cnt = 0, word_idx = 0, word_start = 0, is_word = 0;
+	int i, j, word_idx = 0, word_start = 0, is_word = 0;
 	char **words;
 
-	if (str == NULL || *str == '\0')
-		return (NULL);
-	word_cnt = count_words(str);
-	if (word_cnt == 0)
-		return (NULL);
-	words = malloc((word_cnt + 1) * sizeof(char *));
+	words = malloc((wc + 1) * sizeof(char *));
 	if (words == NULL)
 		return (NULL);
+
 	for (i = 0; str[i] != '\0'; i++)
 	{
-		if (str[i] == ' ')
+		if (str[i] == ' ') /* If the current char is empty space */
 		{
-			if (is_word)
-			{
+			if (is_word) /* and we have a word */
+			{			 /* Allocate space for that word */
 				words[word_idx] = malloc((i - word_start + 1) * sizeof(char));
-				if (words[word_idx] == NULL)
+				if (words[word_idx] == NULL) /* Allocation failed */
 				{
 					for (j = 0; j < word_idx; j++)
 						free(words[j]);
 					free(words);
 					return (NULL);
 				}
+				/* Copy the word to the string */
 				strncpy(words[word_idx], str + word_start, i - word_start);
+				/* Add null char after every word */
 				words[word_idx][i - word_start] = '\0';
 				word_idx++;
 				is_word = 0;
 			}
 		}
-		else if (!is_word)
+		else if (!is_word) /* Current position is not empty space */
 		{
-			word_start = i;
-			is_word = 1;
+			word_start = i; /* Word start at the current pos of (i) */
+			is_word = 1;	/* Mark that we have a word */
 		}
 	}
-	if (is_word)
-	{
-		words[word_idx] = malloc((strlen(str + word_start) + 1) * sizeof(char));
-		if (words[word_idx] == NULL)
-		{
-			for (j = 0; j <= word_idx; j++)
-				free(words[j]);
-			free(words);
-			return (NULL);
-		}
-		strcpy(words[word_idx], str + word_start);
-		word_idx++;
-	}
+
 	words[word_idx] = NULL;
 	return (words);
+}
+
+/**
+ * strtow - Splits a string into words.
+ * @str: pointer type char
+ * Return: pointer to the given string or Null on fails or str = null | ""
+ */
+char **strtow(char *str)
+{
+	int word_cnt = 0;
+
+	if (str == NULL || *str == '\0')
+		return (NULL);
+
+	word_cnt = count_words(str);
+	if (word_cnt == 0)
+		return (NULL);
+
+	return (split_words(str, word_cnt));
 }

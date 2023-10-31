@@ -3,6 +3,20 @@
 #include <string.h>
 
 /**
+ * free_words - Free the memory allocated for words array
+ * @words: array of strings
+ * @word_idx: index to free up to
+ */
+void free_words(char **words, int word_idx)
+{
+	int i;
+
+	for (i = 0; i < word_idx; i++)
+		free(words[i]);
+	free(words);
+}
+
+/**
  * count_words - Track the word count in a given string
  * @str: pointer type char
  * Return: the word count
@@ -34,42 +48,45 @@ int count_words(char *str)
  */
 char **split_words(char *str, int wc)
 {
-	int i, j, word_idx = 0, word_start = 0, is_word = 0;
+	int i, word_idx = 0, word_start = 0, word_len = 0;
 	char **words;
 
 	words = malloc((wc + 1) * sizeof(char *));
 	if (words == NULL)
 		return (NULL);
-
 	for (i = 0; str[i] != '\0'; i++)
 	{
-		if (str[i] == ' ') /* If the current char is empty space */
+		if (str[i] == ' ')
 		{
-			if (is_word) /* and we have a word */
-			{			 /* Allocate space for that word */
-				words[word_idx] = malloc((i - word_start + 1) * sizeof(char));
-				if (words[word_idx] == NULL) /* Allocation failed */
+			if (i > word_start)
+			{
+				word_len = i - word_start;
+				words[word_idx] = malloc((word_len + 1) * sizeof(char));
+				if (words[word_idx] == NULL)
 				{
-					for (j = 0; j < word_idx; j++)
-						free(words[j]);
-					free(words);
+					free_words(words, word_idx);
 					return (NULL);
 				}
-				/* Copy the word to the string */
-				strncpy(words[word_idx], str + word_start, i - word_start);
-				/* Add null char after every word */
-				words[word_idx][i - word_start] = '\0';
+				strncpy(words[word_idx], str + word_start, word_len);
+				words[word_idx][word_len] = '\0';
 				word_idx++;
-				is_word = 0;
 			}
-		}
-		else if (!is_word) /* Current position is not empty space */
-		{
-			word_start = i; /* Word start at the current pos of (i) */
-			is_word = 1;	/* Mark that we have a word */
+			word_start = i + 1;
 		}
 	}
-
+	if (i > word_start)
+	{
+		word_len = i - word_start;
+		words[word_idx] = malloc((word_len + 1) * sizeof(char));
+		if (words[word_idx] == NULL)
+		{
+			free_words(words, word_idx);
+			return (NULL);
+		}
+		strncpy(words[word_idx], str + word_start, word_len);
+		words[word_idx][word_len] = '\0';
+		word_idx++;
+	}
 	words[word_idx] = NULL;
 	return (words);
 }
@@ -82,6 +99,7 @@ char **split_words(char *str, int wc)
 char **strtow(char *str)
 {
 	int word_cnt = 0;
+	char **words;
 
 	if (str == NULL || *str == '\0')
 		return (NULL);
@@ -90,5 +108,6 @@ char **strtow(char *str)
 	if (word_cnt == 0)
 		return (NULL);
 
-	return (split_words(str, word_cnt));
+	words = split_words(str, word_cnt);
+	return (words);
 }

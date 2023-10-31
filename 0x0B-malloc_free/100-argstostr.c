@@ -10,8 +10,7 @@
  */
 char *argstostr(int ac, char **av)
 {
-	int i, arg_len, total_args_len;
-	int cur_pos = 0;
+	int i, j, total_args_len, cur_pos = 0;
 	char *str;
 
 	if (ac == 0 || av == NULL)
@@ -27,13 +26,13 @@ char *argstostr(int ac, char **av)
 	/* Concatonate all args */
 	for (i = 0; i < ac; i++)
 	{
-		arg_len = strlen(av[i]);
-		strcpy(str + cur_pos, av[i]);
-		cur_pos += arg_len;
+		for (j = 0; av[i][j] != '\0'; j++, cur_pos++)
+			str[cur_pos] = av[i][j];
+
 		str[cur_pos] = '\n';
 		cur_pos++;
 	}
-	str[cur_pos + 1] = '\0'; /* Add the null terminator after last char */
+	str[cur_pos] = '\0'; /* Add the null terminator after last char */
 
 	return (str);
 }

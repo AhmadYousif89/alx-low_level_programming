@@ -16,7 +16,7 @@ char *argstostr(int ac, char **av)
 	if (ac == 0 || av == NULL)
 		return (NULL);
 	/* Get total length of all args including spaces and newline */
-	for (i = 0; i < ac; i++)
+	for (i = 0; i < ac; i++, total_args_len++)
 		total_args_len += strlen(av[i]) + 1; /* (+1) for '\n' */
 	/* Allocate memory for the new string */
 	str = (char *)malloc((sizeof(char) * total_args_len) + 1);

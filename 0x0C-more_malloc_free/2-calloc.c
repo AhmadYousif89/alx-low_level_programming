@@ -8,21 +8,22 @@
  */
 void *_calloc(unsigned int nmemb, unsigned int size)
 {
-	unsigned i;
-	char *p;
+	unsigned alloc_size = 0;
+	void *p;
+	char *s;
 
 	if (nmemb == 0 || size == 0)
 		return (NULL);
 
-	p = malloc(nmemb * sizeof(int));
+	alloc_size = nmemb * sizeof(int);
+	p = malloc(alloc_size);
 
 	if (p == NULL)
 		return (NULL);
 
-	for (i = 0; i < nmemb; i++)
-	{
-		p[i] = 0;
-	}
+	s = p;
+	while (alloc_size--)
+		*s++ = 0;
 
 	return (p);
 }

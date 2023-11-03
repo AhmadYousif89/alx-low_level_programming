@@ -24,12 +24,12 @@ int convertToLn(char *s)
 	int sign = 1;
 	unsigned long int i, j, res = 0;
 
-	for (i = 0; !(isdigit(s[i])); i++)
+	for (i = 0; !((s[i] >= '0' && s[i] <= '9')); i++)
 	{
 		if (s[i] == '-')
 			sign *= -1;
 	}
-	for (j = i; isdigit(s[j]); j++)
+	for (j = i; (s[i] >= '0' && s[i] <= '9'); j++)
 	{
 		res *= 10;
 		res += (s[j] - '0');
@@ -38,6 +38,11 @@ int convertToLn(char *s)
 	return (res * sign);
 }
 
+/**
+ * multiplyNumbers - .
+ * @num: long number
+ * Return: (0)
+ */
 void multiplyNumbers(unsigned long int num)
 {
 	unsigned long int div = 1, i, res;
@@ -63,7 +68,7 @@ int main(int argc, char *argv[])
 
 	if (argc != 3)
 	{
-		_print("Error ");
+		_print("Error");
 		exit(98);
 	}
 

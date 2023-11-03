@@ -15,7 +15,12 @@ void _print(char *s)
 	_putchar('\n');
 }
 
-unsigned long int convertToInt(char *s)
+/**
+ * convertToLn - Convert string to number
+ * @s:  pointer
+ * Return: long number
+ */
+unsigned long int convertToLn(char *s)
 {
 	int sign = 1;
 	unsigned long int i, j, res = 0;
@@ -47,7 +52,7 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 
-	mul = convertToInt(argv[1]) * convertToInt(argv[2]);
+	mul = convertToLn(argv[1]) * convertToLn(argv[2]);
 	printf("%lu\n", mul);
 
 	return (0);

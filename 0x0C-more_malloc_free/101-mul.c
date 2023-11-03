@@ -88,18 +88,15 @@ unsigned long int convertToInt(char *s)
  */
 void multiplyNumbers(unsigned long int num)
 {
-	unsigned long int divisor = 1, digit;
+	unsigned long int div = 1, i, res;
 
-	while (num / divisor > 9)
-		divisor *= 10;
-
-	/* Extract and print digits one by one */
-	while (divisor >= 1)
+	for (i = 0; num / div > 9; i++, div *= 10)
+		;
+	for (; div >= 1; div /= 10)
 	{
-		digit = num / divisor;
-		_putchar('0' + digit);
-		num %= divisor;
-		divisor /= 10;
+		res = num / div;
+		_putchar('0' + res);
+		num %= div;
 	}
 	_putchar('\n');
 }

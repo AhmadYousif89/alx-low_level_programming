@@ -1,95 +1,34 @@
 #include "main.h"
+#include <stdio.h>
 #include <stdlib.h>
 
-void _print(char *s);
-int _isDigit(char c);
-int convertToInt(char *s);
-void multiplyNumbers(unsigned long int num);
-
 /**
- * main - Multiply two numbers
+ * main - Multiplies two positive numbers
  * @argc: arg count
- * @argv: arg array
+ * @argv: args array
  * Return: (0)
  */
 int main(int argc, char *argv[])
 {
+	unsigned long mul;
+	int i, j;
 	if (argc != 3)
 	{
-		_print("Error");
+		printf("Error\n");
 		exit(98);
 	}
-
-	multiplyNumbers(convertToInt(argv[1]) * convertToInt(argv[2]));
-
+	for (i = 1; i < argc; i++)
+	{
+		for (j = 0; argv[i][j] != '\0'; j++)
+		{
+			if (argv[i][j] > 57 || argv[i][j] < 48)
+			{
+				printf("Error\n");
+				exit(98);
+			}
+		}
+	}
+	mul = atol(argv[1]) * atol(argv[2]);
+	printf("%lu\n", mul);
 	return (0);
-}
-
-/**
- * _print - Check if character is digit
- * @s: pointer type char
- * Return: void
- */
-void _print(char *s)
-{
-	while (*s)
-		_putchar(*s++);
-	_putchar('\n');
-}
-
-/**
- * _isDigit - Check if character is digit
- * @c: arg of type int
- * Return: 1 or 0
- */
-int _isDigit(char c)
-{
-	return (c >= '0' && c <= '9');
-}
-
-/**
- * convertToInt - Convert char to digit
- * @s: pointer type char
- * Return: number
- */
-int convertToInt(char *s)
-{
-	int sign = 1;
-	unsigned long int i, j, res = 0;
-
-	for (i = 0; !(_isDigit(s[i])); i++)
-	{
-		if (s[i] == '-')
-			sign *= -1;
-	}
-	for (j = i; _isDigit(s[j]); j++)
-	{
-		res *= 10;
-		res += s[i] - '0';
-	}
-
-	return (res * sign);
-}
-
-/**
- * multiplyNumbers - Print the result of multiplication of two numbers
- * @num: number type long
- * Return: void
- */
-void multiplyNumbers(unsigned long int num)
-{
-	unsigned long int divisor = 1, digit;
-
-	while (num / divisor > 9)
-		divisor *= 10;
-
-	/* Extract and print digits one by one */
-	while (divisor >= 1)
-	{
-		digit = num / divisor;
-		_putchar('0' + digit);
-		num %= divisor;
-		divisor /= 10;
-	}
-	_putchar('\n');
 }

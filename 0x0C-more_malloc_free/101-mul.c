@@ -12,6 +12,7 @@ void _print(char *s)
 {
 	while (*s)
 		_putchar(*s++);
+	_putchar('\n');
 }
 
 /**
@@ -29,10 +30,10 @@ int convertToLn(char *s)
 		if (s[i] == '-')
 			sign *= -1;
 	}
-	for (j = i; (s[i] >= '0' && s[i] <= '9'); j++)
+	for (j = i; (s[j] >= '0' && s[j] <= '9'); j++)
 	{
 		res *= 10;
-		res += (s[j] - '0');
+		res += (s[j] - 48);
 	}
 
 	return (res * sign);

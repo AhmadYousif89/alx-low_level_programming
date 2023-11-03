@@ -3,7 +3,7 @@
 
 void _print(char *s);
 int _isDigit(char c);
-int convertToInt(char *s);
+unsigned long int convertToInt(char *s);
 void multiplyNumbers(unsigned long int num);
 
 /**
@@ -56,7 +56,7 @@ int _isDigit(char c)
  * @s: pointer type char
  * Return: number
  */
-int convertToInt(char *s)
+unsigned long int convertToInt(char *s)
 {
 	int sign = 1;
 	unsigned long int i, j, res = 0;

@@ -1,6 +1,7 @@
 #include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 void _print(char *s)
 {
@@ -17,28 +18,40 @@ void _print(char *s)
  */
 int main(int argc, char *argv[])
 {
-	unsigned long mul;
-	int i, j;
+	int i;
+	unsigned long int mul;
+	char *num1_str;
+	char *num2_str;
 
 	if (argc != 3)
 	{
-		_print("Error");
-		exit(98);
+		printf("Error\n");
+		return 98;
 	}
-	for (i = 1; i < argc; i++)
+
+	num1_str = argv[1];
+	num2_str = argv[2];
+
+	for (i = 0; num1_str[i] != '\0'; i++)
 	{
-		for (j = 0; argv[i][j] != '\0'; j++)
+		if (!isdigit(num1_str[i]))
 		{
-			if (argv[i][j] < '0' || argv[i][j] > '9')
-			{
-				_print("Error");
-				exit(98);
-			}
+			printf("Error\n");
+			return 98;
+		}
+	}
+
+	for (i = 0; num2_str[i] != '\0'; i++)
+	{
+		if (!isdigit(num2_str[i]))
+		{
+			printf("Error\n");
+			return 98;
 		}
 	}
 
 	mul = atoi(argv[1]) * atoi(argv[2]);
 	printf("%lu\n", mul);
 
-	return (0);
+	return 0;
 }

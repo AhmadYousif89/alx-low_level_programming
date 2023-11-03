@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+/**
+ * _print - Print string using _putchar
+ * @s:  pointer
+ * Return: void
+ */
 void _print(char *s)
 {
 	while (*s)
@@ -25,8 +30,8 @@ int main(int argc, char *argv[])
 
 	if (argc != 3)
 	{
-		printf("Error\n");
-		return 98;
+		_print("Error");
+		exit(98);
 	}
 
 	num1_str = argv[1];
@@ -36,8 +41,8 @@ int main(int argc, char *argv[])
 	{
 		if (!isdigit(num1_str[i]))
 		{
-			printf("Error\n");
-			return 98;
+			_print("Error");
+			exit(98);
 		}
 	}
 
@@ -45,13 +50,13 @@ int main(int argc, char *argv[])
 	{
 		if (!isdigit(num2_str[i]))
 		{
-			printf("Error\n");
-			return 98;
+			_print("Error");
+			exit(98);
 		}
 	}
 
-	mul = atoi(argv[1]) * atoi(argv[2]);
+	mul = atol(argv[1]) * atol(argv[2]);
 	printf("%lu\n", mul);
 
-	return 0;
+	return (0);
 }

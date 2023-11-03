@@ -1,5 +1,4 @@
 #include "main.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 void _print(char *s);
@@ -83,7 +82,7 @@ int convertToInt(char *s)
  */
 void multiplyNumbers(unsigned long int num)
 {
-	unsigned long int divisor = 1, digit, remainder;
+	unsigned long int divisor = 1, digit;
 
 	while (num / divisor > 9)
 		divisor *= 10;

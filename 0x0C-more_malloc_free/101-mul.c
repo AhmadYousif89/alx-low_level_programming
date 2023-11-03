@@ -3,7 +3,7 @@
 
 void _print(char *s);
 int _isDigit(char c);
-int convertToInt(char *s);
+unsigned long int convertToInt(char *s);
 void multiplyNumbers(unsigned long int num);
 
 /**
@@ -14,7 +14,7 @@ void multiplyNumbers(unsigned long int num);
  */
 int main(int argc, char *argv[])
 {
-	int arg1, arg2;
+	unsigned long int arg1, arg2;
 
 	if (argc != 3)
 	{
@@ -56,24 +56,26 @@ int _isDigit(char c)
  * @s: pointer type char
  * Return: number
  */
-int convertToInt(char *s)
+unsigned long int convertToInt(char *s)
 {
 	int sign = 1;
 	unsigned long int i, j, res = 0;
 
-	for (i = 0; !(_isDigit(s[i])); i++)
+	if (s[0] == '-')
 	{
-		if (s[i] == '-')
-			sign *= -1;
-		if (!(_isDigit(s[i])))
+		sign = -1;
+		s++;
+	}
+
+	while (*s)
+	{
+		if (!isDigit(*s))
 		{
 			_print("Error");
 			exit(98);
 		}
-		}
-	for (j = i; _isDigit(s[j]); j++)
-	{
-		res = res * 10 + (s[j] - '0');
+		res = res * 10 + (*s - '0');
+		s++;
 	}
 
 	return (res * sign);

@@ -55,23 +55,17 @@ int _isDigit(char c)
 int convertToInt(char *s)
 {
 	int sign = 1;
-	unsigned long int res = 0;
+	unsigned long int i, j, res = 0;
 
-	if (s[0] == '-')
+	for (i = 0; !(_isDigit(s[i])); i++)
 	{
-		sign = -1;
-		s++;
+		if (s[i] == '-')
+			sign *= -1;
 	}
-
-	while (*s)
+	for (j = i; _isDigit(s[j]); j++)
 	{
-		if (!_isDigit(*s))
-		{
-			_print("Error");
-			exit(98);
-		}
-		res = res * 10 + (*s - '0');
-		s++;
+		res *= 10;
+		res += s[i] - '0';
 	}
 
 	return (res * sign);

@@ -65,7 +65,12 @@ int convertToInt(char *s)
 	{
 		if (s[i] == '-')
 			sign *= -1;
-	}
+		if (!(_isDigit(s[i])))
+		{
+			_print("Error");
+			exit(98);
+		}
+		}
 	for (j = i; _isDigit(s[j]); j++)
 	{
 		res = res * 10 + (s[j] - '0');

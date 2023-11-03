@@ -41,12 +41,10 @@ void multiplyNumbers(unsigned long int num)
 
 	for (i = 0; num / div > 9; i++, div *= 10)
 		;
-
-	for (; div >= 1; div /= 10)
+	for (; div >= 1; num %= div, div /= 10)
 	{
 		res = num / div;
 		_putchar('0' + res);
-		num %= div;
 	}
 }
 
@@ -58,16 +56,13 @@ void multiplyNumbers(unsigned long int num)
  */
 int main(int argc, char *argv[])
 {
-	unsigned long int res;
-
 	if (argc != 3)
 	{
 		_print("Error ");
 		exit(98);
 	}
 
-	res = convertToLn(argv[1]) * convertToLn(argv[2]);
-	multiplyNumbers(res);
+	multiplyNumbers(convertToLn(argv[1]) * convertToLn(argv[2]));
 	_putchar('\n');
 
 	return (0);

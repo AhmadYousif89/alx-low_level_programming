@@ -3,7 +3,7 @@
 
 void _print(char *s);
 int _isDigit(char c);
-unsigned long int convertToInt(char *s);
+int convertToInt(char *s);
 void multiplyNumbers(unsigned long int num);
 
 /**
@@ -14,17 +14,13 @@ void multiplyNumbers(unsigned long int num);
  */
 int main(int argc, char *argv[])
 {
-	unsigned long int arg1, arg2;
-
 	if (argc != 3)
 	{
 		_print("Error");
 		exit(98);
 	}
 
-	arg1 = convertToInt(argv[1]);
-	arg2 = convertToInt(argv[2]);
-	multiplyNumbers(arg1 * arg2);
+	multiplyNumbers(convertToInt(argv[1]) * convertToInt(argv[2]));
 
 	return (0);
 }
@@ -56,7 +52,7 @@ int _isDigit(char c)
  * @s: pointer type char
  * Return: number
  */
-unsigned long int convertToInt(char *s)
+int convertToInt(char *s)
 {
 	int sign = 1;
 	unsigned long int res = 0;
@@ -88,15 +84,18 @@ unsigned long int convertToInt(char *s)
  */
 void multiplyNumbers(unsigned long int num)
 {
-	unsigned long int div = 1, i, res;
+	unsigned long int divisor = 1, digit;
 
-	for (i = 0; num / div > 9; i++, div *= 10)
-		;
-	for (; div >= 1; div /= 10)
+	while (num / divisor > 9)
+		divisor *= 10;
+
+	/* Extract and print digits one by one */
+	while (divisor >= 1)
 	{
-		res = num / div;
-		_putchar('0' + res);
-		num %= div;
+		digit = num / divisor;
+		_putchar('0' + digit);
+		num %= divisor;
+		divisor /= 10;
 	}
 	_putchar('\n');
 }

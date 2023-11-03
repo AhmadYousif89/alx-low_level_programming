@@ -18,18 +18,17 @@ void _print(char *s)
 unsigned long int convertToInt(char *s)
 {
 	int sign = 1;
-	unsigned long int res = 0;
+	unsigned long int i, j, res = 0;
 
-	if (s[0] == '-')
+	for (i = 0; !(isDigit(s[i])); i++)
 	{
-		sign = -1;
-		s++;
+		if (s[i] == '-')
+			sign *= -1;
 	}
-
-	while (*s)
+	for (j = i; isDigit(s[j]); j++)
 	{
-		res = res * 10 + (*s - '0');
-		s++;
+		res *= 10;
+		res += s[i] - '0';
 	}
 
 	return (res * sign);

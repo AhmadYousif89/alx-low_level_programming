@@ -16,30 +16,6 @@ void _print(char *s)
 }
 
 /**
- * convertToLn - Convert string to number
- * @s:  pointer
- * Return: long number
- */
-int convertToLn(char *s)
-{
-	int sign = 1;
-	unsigned long int i, j, res = 0;
-
-	for (i = 0; !(isdigit(s[i])); i++)
-	{
-		if (s[i] == '-')
-			sign *= -1;
-	}
-	for (j = i; isdigit(s[i]); j++)
-	{
-		res *= 10;
-		res += (s[j] - 48);
-	}
-
-	return (res * sign);
-}
-
-/**
  * multiplyNumbers - .
  * @num: long number
  * Return: (0)
@@ -55,6 +31,7 @@ void multiplyNumbers(unsigned long int num)
 		res = num / div;
 		_putchar('0' + res);
 	}
+	_putchar('\n');
 }
 
 /**
@@ -65,7 +42,7 @@ void multiplyNumbers(unsigned long int num)
  */
 int main(int argc, char *argv[])
 {
-	(void)argc;
+	int i, j;
 
 	if (argc != 3)
 	{
@@ -73,8 +50,19 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 
+	for (i = 1; i < argc; i++)
+	{
+		for (j = 0; argv[i][j] != '\0'; j++)
+		{
+			if (!(isdigit(argv[i][j])))
+			{
+				_print("Error");
+				exit(98);
+			}
+		}
+	}
+
 	multiplyNumbers(atol(argv[1]) * atol(argv[2]));
-	_putchar('\n');
 
 	return (0);
 }

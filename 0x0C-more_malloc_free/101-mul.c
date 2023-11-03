@@ -12,7 +12,6 @@ void _print(char *s)
 {
 	while (*s)
 		_putchar(*s++);
-	_putchar('\n');
 }
 
 /**
@@ -31,9 +30,24 @@ unsigned long int convertToLn(char *s)
 			sign *= -1;
 	}
 	for (j = i; isdigit(s[j]); j++)
-		res = res * 10 + s[i] - '0';
+		res = res * 10 + (s[j] - '0');
 
 	return (res * sign);
+}
+
+void multiplyNumbers(unsigned long int num)
+{
+	unsigned long int div = 1, i, res;
+
+	for (i = 0; num / div > 9; i++, div *= 10)
+		;
+
+	for (; div >= 1; div /= 10)
+	{
+		res = num / div;
+		_putchar('0' + res);
+		num %= div;
+	}
 }
 
 /**
@@ -44,16 +58,17 @@ unsigned long int convertToLn(char *s)
  */
 int main(int argc, char *argv[])
 {
-	unsigned long int mul;
+	unsigned long int res;
 
 	if (argc != 3)
 	{
-		_print("Error");
+		_print("Error ");
 		exit(98);
 	}
 
-	mul = convertToLn(argv[1]) * convertToLn(argv[2]);
-	printf("%lu\n", mul);
+	res = convertToLn(argv[1]) * convertToLn(argv[2]);
+	multiplyNumbers(res);
+	_putchar('\n');
 
 	return (0);
 }

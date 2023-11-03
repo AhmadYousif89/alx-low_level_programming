@@ -25,12 +25,12 @@ int convertToLn(char *s)
 	int sign = 1;
 	unsigned long int i, j, res = 0;
 
-	for (i = 0; !((s[i] >= '0' && s[i] <= '9')); i++)
+	for (i = 0; !(isdigit(s[i])); i++)
 	{
 		if (s[i] == '-')
 			sign *= -1;
 	}
-	for (j = i; (s[j] >= '0' && s[j] <= '9'); j++)
+	for (j = i; isdigit(s[i]); j++)
 	{
 		res *= 10;
 		res += (s[j] - 48);
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 
-	multiplyNumbers(convertToLn(argv[1]) * convertToLn(argv[2]));
+	multiplyNumbers(atol(argv[1]) * atol(argv[2]));
 	_putchar('\n');
 
 	return (0);

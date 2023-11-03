@@ -19,7 +19,7 @@ void _print(char *s)
  * @s:  pointer
  * Return: long number
  */
-unsigned long int convertToLn(char *s)
+int convertToLn(char *s)
 {
 	int sign = 1;
 	unsigned long int i, j, res = 0;
@@ -30,7 +30,10 @@ unsigned long int convertToLn(char *s)
 			sign *= -1;
 	}
 	for (j = i; isdigit(s[j]); j++)
-		res = res * 10 + (s[j] - '0');
+	{
+		res *= 10;
+		res += (s[j] - '0');
+	}
 
 	return (res * sign);
 }
@@ -56,6 +59,8 @@ void multiplyNumbers(unsigned long int num)
  */
 int main(int argc, char *argv[])
 {
+	(void)argc;
+
 	if (argc != 3)
 	{
 		_print("Error ");

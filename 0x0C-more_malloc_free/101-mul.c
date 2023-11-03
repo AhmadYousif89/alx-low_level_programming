@@ -59,7 +59,7 @@ int _isDigit(char c)
 unsigned long int convertToInt(char *s)
 {
 	int sign = 1;
-	unsigned long int i, j, res = 0;
+	unsigned long int res = 0;
 
 	if (s[0] == '-')
 	{
@@ -69,7 +69,7 @@ unsigned long int convertToInt(char *s)
 
 	while (*s)
 	{
-		if (!isDigit(*s))
+		if (!_isDigit(*s))
 		{
 			_print("Error");
 			exit(98);

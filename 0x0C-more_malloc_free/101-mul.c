@@ -15,6 +15,26 @@ void _print(char *s)
 	_putchar('\n');
 }
 
+unsigned long int convertToInt(char *s)
+{
+	int sign = 1;
+	unsigned long int res = 0;
+
+	if (s[0] == '-')
+	{
+		sign = -1;
+		s++;
+	}
+
+	while (*s)
+	{
+		res = res * 10 + (*s - '0');
+		s++;
+	}
+
+	return (res * sign);
+}
+
 /**
  * main - Multiplies two positive numbers
  * @argc: arg count
@@ -25,8 +45,8 @@ int main(int argc, char *argv[])
 {
 	int i;
 	unsigned long int mul;
-	char *num1_str;
-	char *num2_str;
+	char *arg1;
+	char *arg2;
 
 	if (argc != 3)
 	{
@@ -34,28 +54,28 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 
-	num1_str = argv[1];
-	num2_str = argv[2];
+	arg1 = argv[1];
+	arg2 = argv[2];
 
-	for (i = 0; num1_str[i] != '\0'; i++)
+	for (i = 0; arg1[i] != '\0'; i++)
 	{
-		if (!isdigit(num1_str[i]))
+		if (!isdigit(arg1[i]))
 		{
 			_print("Error");
 			exit(98);
 		}
 	}
 
-	for (i = 0; num2_str[i] != '\0'; i++)
+	for (i = 0; arg2[i] != '\0'; i++)
 	{
-		if (!isdigit(num2_str[i]))
+		if (!isdigit(arg2[i]))
 		{
 			_print("Error");
 			exit(98);
 		}
 	}
 
-	mul = atol(argv[1]) * atol(argv[2]);
+	mul = convertToInt(argv[1]) * convertToInt(argv[2]);
 	printf("%lu\n", mul);
 
 	return (0);

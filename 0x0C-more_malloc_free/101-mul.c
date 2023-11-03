@@ -2,6 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void _print(char *s)
+{
+	while (*s)
+		_putchar(*s++);
+	_putchar('\n');
+}
+
 /**
  * main - Multiplies two positive numbers
  * @argc: arg count
@@ -15,16 +22,16 @@ int main(int argc, char *argv[])
 
 	if (argc != 3)
 	{
-		printf("Error\n");
+		_print("Error");
 		exit(98);
 	}
 	for (i = 1; i < argc; i++)
 	{
 		for (j = 0; argv[i][j] != '\0'; j++)
 		{
-			if (argv[i][j] > 57 || argv[i][j] < 48)
+			if (argv[i][j] < '0' || argv[i][j] > '9')
 			{
-				printf("Error\n");
+				_print("Error");
 				exit(98);
 			}
 		}

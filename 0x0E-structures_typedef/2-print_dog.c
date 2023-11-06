@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "dog.h"
 
 /**
@@ -8,5 +9,9 @@
 void print_dog(struct dog *d)
 {
 	if (d == NULL)
-		d = malloc(sizeof(struct dog));
+		exit(EXIT_FAILURE);
+
+	printf("Name: %s\n", (d->name == NULL ? "(nil)" : d->name));
+	printf("Age: %f\n", d->age);
+	printf("Owner: %s\n", (d->owner == NULL ? "(nil)" : d->owner));
 }

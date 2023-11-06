@@ -10,6 +10,7 @@
 		"string.h": "c",
 		"ctype.h": "c",
 		"stdlib.h": "c",
-		"cmath": "c"
+		"cmath": "c",
+		"3-function_like_macro.h": "c"
 	}
 }

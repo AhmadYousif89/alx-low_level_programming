@@ -2,15 +2,13 @@
 	"files.associations": {
 		"*.jsx": "javascriptreact",
 		"*.css": "tailwindcss",
-		"unistd.h": "c",
 		"stdio.h": "c",
-		"main.h": "c",
-		"random": "c",
-		"limits.h": "c",
-		"string.h": "c",
-		"ctype.h": "c",
 		"stdlib.h": "c",
-		"cmath": "c",
-		"3-function_like_macro.h": "c"
+		"string.h": "c",
+		"unistd.h": "c",
+		"limits.h": "c",
+		"ctype.h": "c",
+		"random": "c",
+		"cmath": "c"
 	}
 }

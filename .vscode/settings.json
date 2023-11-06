@@ -9,6 +9,7 @@
 		"limits.h": "c",
 		"ctype.h": "c",
 		"random": "c",
-		"cmath": "c"
+		"cmath": "c",
+		"typeinfo": "c"
 	}
 }

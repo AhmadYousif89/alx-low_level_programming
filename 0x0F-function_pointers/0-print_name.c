@@ -1,5 +1,3 @@
-#include "main.h"
-
 /**
  * print_name - Print a name using a pointer to function
  * @name: name of the person

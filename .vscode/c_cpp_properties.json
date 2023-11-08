@@ -3,12 +3,11 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/0x04-more_functions_nested_loops"
+                "${workspaceFolder}/**"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/gcc",
-            "intelliSenseMode": "linux-gcc-x64"
+            "compilerPath": "/usr/bin/gcc-10",
+            "intelliSenseMode": "${default}"
         }
     ],
     "version": 4

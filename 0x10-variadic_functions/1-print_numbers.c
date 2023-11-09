@@ -4,7 +4,7 @@
 /**
  * print_numbers - Print numbers with comma separator
  * @separator: pointer to string
- * @n: const positive number
+ * @n: count of args
  * Return: Nothing
  */
 void print_numbers(const char *separator, const unsigned int n, ...)
@@ -25,4 +25,6 @@ void print_numbers(const char *separator, const unsigned int n, ...)
 		else
 			printf("%i%s", num, separator);
 	}
+
+	va_end(li);
 }

@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
 
 	ptr = (char *)main;
 
-	for (int i = 0; i < nb; i++)
+	for (i = 0; i < nb; i++)
 	{
-		printf("%02x", ptr[i]);
+		printf("%02hhx ", ptr[i]);
 	}
 
 	printf("\n");

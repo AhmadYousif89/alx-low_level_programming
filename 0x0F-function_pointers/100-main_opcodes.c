@@ -10,7 +10,6 @@
 int main(int argc, char *argv[])
 {
 	int i, nb; /* nb => number of bytes */
-	char *ptr;
 
 	if (argc != 2)
 	{
@@ -26,13 +25,15 @@ int main(int argc, char *argv[])
 		exit(2);
 	}
 
-	ptr = (char *)main;
+	unsigned char *mainAddress = (unsigned char *)main;
 
 	for (i = 0; i < nb; i++)
 	{
-		printf("%02hhx ", ptr[i]);
+		if (i == nb - 1)
+			printf("%02x\n", mainAddress[i]);
+		else
+			printf("%02x ", mainAddress[i]);
 	}
 
-	printf("\n");
 	return (0);
 }

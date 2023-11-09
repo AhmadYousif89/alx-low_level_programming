@@ -11,6 +11,7 @@
 		"random": "c",
 		"cmath": "c",
 		"typeinfo": "c",
-		"stdarg.h": "c"
+		"stdarg.h": "c",
+		"variadic_functions.h": "c"
 	}
 }

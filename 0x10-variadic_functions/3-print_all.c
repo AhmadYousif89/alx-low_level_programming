@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
 
 /**
  * print_all - .
@@ -9,32 +9,36 @@
 void print_all(const char *const format, ...)
 {
 	va_list args;
-	int i = 0;
-	char *str;
+	int i = 0, num;
+	char c;
+	float f;
+	char *s;
 
 	va_start(args, format);
-
 	while (format[i] != '\0')
 	{
-		switch (format[i])
+		if (format[i] == 'c')
 		{
-		case 'c':
-			printf("%c ", va_arg(args, int));
-			break;
-		case 'i':
-			printf("%d ", va_arg(args, int));
-			break;
-		case 'f':
-			printf("%f ", va_arg(args, double));
-			break;
-		case 's':
-			str = va_arg(args, char *);
-			if (str == NULL)
-				str = "(nil)";
-			printf("%s ", str);
-			break;
-		default:
-			break;
+			c = (char)va_arg(args, int);
+			printf("%c ", c);
+		}
+		else if (format[i] == 'i')
+		{
+			num = va_arg(args, int);
+			printf("%d ", num);
+		}
+		else if (format[i] == 'f')
+		{
+			f = (float)va_arg(args, double);
+			printf("%f ", f);
+		}
+		else if (format[i] == 's')
+		{
+			s = va_arg(args, char *);
+			if (s == NULL)
+				printf("(nil)");
+			else
+				printf("%s", s);
 		}
 		i++;
 	}

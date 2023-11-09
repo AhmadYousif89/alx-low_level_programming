@@ -3,14 +3,15 @@
 
 /**
  * print_all - prints anything
- * @format: list of types of arguments passed to the function
+ * @format: list of types of arguments
  */
 void print_all(const char *const format, ...)
 {
+	va_list li;
 	int i = 0;
-	char *s, *separator = "";
+	char *s;
+	char *separator = "";
 
-	va_list(li);
 	va_start(li, format);
 
 	while (format[i] != '\0')

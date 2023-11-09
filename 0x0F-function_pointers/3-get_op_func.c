@@ -19,8 +19,8 @@ int (*get_op_func(char *s))(int, int)
 		{NULL, NULL}};
 
 	while (ops[i].op != NULL)
-	{ /* Compare the value of s against the operator */
-		if (*(ops[i].op) == *s && *(s + 1) == '\0')
+	{ /* Compare the value of (s) against the operator */
+		if (*ops[i].op == *s && *(s + 1) == '\0')
 			return (ops[i].f);
 		i++;
 	}

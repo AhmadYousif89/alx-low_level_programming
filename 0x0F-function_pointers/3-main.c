@@ -10,8 +10,9 @@
  */
 int main(int argc, char *argv[])
 {
-	int res;
-	int (*p)(int, int);
+	char op;
+	int result, arg2;
+	int (*calc)(int, int);
 
 	if (argc != 4)
 	{
@@ -19,9 +20,17 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 
-	p = get_op_func(argv[2]);
-	res = p(atoi(argv[1]), atoi(argv[3]));
-	printf("%d\n", res);
+	op = *argv[2]; /* the operator */
+	arg2 = atoi(argv[3]) == 0;
+	if ((op == '/' || op == '%') && arg2)
+	{
+		printf("Error\n");
+		exit(100);
+	}
+
+	calc = get_op_func(argv[2]);
+	result = calc(atoi(argv[1]), atoi(argv[3]));
+	printf("%i\n", result);
 
 	return (0);
 }

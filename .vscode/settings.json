@@ -10,6 +10,7 @@
 		"ctype.h": "c",
 		"random": "c",
 		"cmath": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"stdarg.h": "c"
 	}
 }

@@ -28,7 +28,7 @@ list_t *create_node(const char *str)
 list_t *add_node_end(list_t **head, const char *str)
 {
 	list_t *node = create_node(str);
-	list_t *current = NULL;
+	list_t *current = *head;
 
 	if (node == NULL)
 		return (NULL);
@@ -38,7 +38,6 @@ list_t *add_node_end(list_t **head, const char *str)
 		return (NULL);
 	}
 
-	current = *head;
 	if (current)
 	{
 		while (current->next)
@@ -46,7 +45,7 @@ list_t *add_node_end(list_t **head, const char *str)
 		current->next = node;
 	}
 	else
-		current = node;
+		*head = node;
 
 	return (node);
 }

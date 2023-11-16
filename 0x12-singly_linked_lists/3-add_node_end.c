@@ -28,7 +28,7 @@ list_t *create_node(const char *str)
 list_t *add_node_end(list_t **head, const char *str)
 {
 	list_t *node = create_node(str);
-	list_t *current;
+	list_t *current = NULL;
 
 	if (node == NULL)
 		return (NULL);
@@ -44,5 +44,5 @@ list_t *add_node_end(list_t **head, const char *str)
 
 	current->next = node;
 
-	return (current);
+	return (node);
 }

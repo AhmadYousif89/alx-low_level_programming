@@ -30,13 +30,8 @@ list_t *add_node_end(list_t **head, const char *str)
 	list_t *node = create_node(str);
 	list_t *current = *head;
 
-	if (node == NULL)
+	if (!node || !head)
 		return (NULL);
-	if (*head == NULL)
-	{
-		*head = node;
-		return (NULL);
-	}
 
 	if (current)
 	{

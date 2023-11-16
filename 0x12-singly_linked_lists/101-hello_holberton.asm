@@ -1,11 +1,8 @@
-; This solution is NOT mine
+; This solution is not mine
 
 section .data
-    ; Define a null-terminated string
+    ; Define a string with newline and null-terminated character
     message db "Hello, Holberton", 0xa, 0
-
-    ; Define a format specifier string
-    format db "%s", 0
 
 section .text
     ; Declare an external function printf
@@ -13,20 +10,9 @@ section .text
     global main
 
 main:
-    ; Set up the stack frame
-    push rbp
-
-    ; Set the first argument (format specifier) for printf
-    mov rdi, format
-
-    ; Set the second argument (address of the string) for printf
-    mov rsi, message
+    ; Add the message to the registry (edi)
+    mov edi, message
+    mov eax, 0
 
     ; Call the printf function
     call printf
-
-    ; Restore the stack frame
-    pop rbp
-
-    ; Return from the main function
-    ret

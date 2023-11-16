@@ -39,10 +39,14 @@ list_t *add_node_end(list_t **head, const char *str)
 	}
 
 	current = *head;
-	while (current && current->next)
-		current = current->next;
-
-	current->next = node;
+	if (current)
+	{
+		while (current->next)
+			current = current->next;
+		current->next = node;
+	}
+	else
+		current = node;
 
 	return (node);
 }

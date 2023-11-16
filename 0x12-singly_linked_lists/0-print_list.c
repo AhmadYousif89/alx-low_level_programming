@@ -1,7 +1,7 @@
 #include "lists.h"
 
 /**
- * print_list - Print the number of nodes in a list
+ * print_list - Print the node values in a list and return its count
  * @h: pointer to the list struct
  * Return: number of nodes in the list
  */

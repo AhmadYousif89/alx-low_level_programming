@@ -1,9 +1,9 @@
 #include "lists.h"
 
 /**
- * print_list - Print the node values in a list and return its count
+ * print_listint - Print the listint values and return its element count
  * @h: pointer to the list struct
- * Return: number of nodes in the list
+ * Return: number of nodes in the listint
  */
 size_t print_listint(const listint_t *h)
 {

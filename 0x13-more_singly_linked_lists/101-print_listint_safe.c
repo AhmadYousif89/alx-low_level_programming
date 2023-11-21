@@ -1,7 +1,7 @@
 #include "lists.h"
 
 /**
- * print_listint_safe - Print the nodes in listint
+ * print_listint_safe - Print-safe the nodes in listint
  * @head: pointer to the list
  * Return: nodes count
  */
@@ -11,7 +11,10 @@ size_t print_listint_safe(const listint_t *head)
 	const listint_t *current = head, *slow = head, *fast = head;
 
 	if (!head)
+	{
+		exit(98);
 		return (0);
+	}
 
 	while (fast && fast->next)
 	{
@@ -25,6 +28,7 @@ size_t print_listint_safe(const listint_t *head)
 		{
 			printf("-> [%p] %d\n", (void *)fast, fast->n);
 			exit(98);
+			return (nc);
 		}
 
 		current = current->next;

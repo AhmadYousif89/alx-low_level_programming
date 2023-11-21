@@ -10,11 +10,13 @@
 listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 {
 	unsigned int i = 0;
-	listint_t *new_node = create_node(n);
 	listint_t *current = *head; /* To keep the reference of the original head */
+	listint_t *new_node = malloc(sizeof(listint_t));
 
 	if (!current || !new_node)
 		return (NULL);
+
+	new_node->n = n ? n : 0;
 
 	/* Case idx is (0) i.e. inserting at the beggining */
 	if (idx == 0)

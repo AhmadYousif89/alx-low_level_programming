@@ -28,10 +28,10 @@ size_t print_listint_safe(const listint_t *head)
 			next = next->next;
 			i++;
 		}
-	}
 
-	if (!head)
-		exit(98);
+		if (!head)
+			exit(98);
+	}
 
 	return (nc);
 }

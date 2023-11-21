@@ -12,14 +12,17 @@ listint_t *reverse_listint(listint_t **head)
 	if (!head || !*head)
 		return (NULL);
 
-	while (cur != NULL)
+	while (cur)
 	{
-		cur = (*head)->next;  /* Move to the next node */
-		(*head)->next = prev; /* Reverse the link */
-		prev = *head;		  /* Move to the next pair of nodes */
-		*head = cur;		  /* Move to the next pair of nodes */
+		/* Save the next node by assigning it to (cur) */
+		cur = (*head)->next;
+		/* Reverse the list by assigning the next node to (prev) */
+		(*head)->next = prev;
+		/* Move to the next pair of nodes */
+		prev = *head;
+		*head = cur;
 	}
-
+	/* Update the head to the new head (prev) */
 	*head = prev;
 
 	return (*head);

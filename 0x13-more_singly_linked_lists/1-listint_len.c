@@ -1,7 +1,7 @@
 #include "lists.h"
 
 /**
- * listint_t - Get the length of the listint
+ * listint_len - Get the length of the listint
  * @h: pointer to the list struct
  * Return: length of the list
  */

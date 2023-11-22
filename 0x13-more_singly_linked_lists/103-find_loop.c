@@ -1,8 +1,8 @@
 #include "lists.h"
 
 /**
- * find_listint_loop - Find the loop | Floyd's cycle-finding algorithm
- * @h: pointer to the listint
+ * find_listint_loop - Find the loop using Floyd's cycle-finding algorithm
+ * @head: pointer to the listint
  * Return: pointer or NULL
  */
 listint_t *find_listint_loop(listint_t *head)

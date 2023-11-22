@@ -7,28 +7,55 @@
  */
 size_t free_listint_safe(listint_t **h)
 {
-	size_t nc = 0;
-	listint_t *current = *h;
-	listint_t *next_node;
+	size_t size = 0;
+	listint_t *slow = *h, *fast = *h, *temp = NULL;
 
-	while (current)
+	if (!h || !*h)
+		return (0);
+
+	while (fast != NULL && fast->next != NULL)
 	{
-		printf("[%p] %d\n", (void *)current, current->n);
-		nc++;
+		slow = slow->next;
+		fast = fast->next->next;
 
-		next_node = current->next;
-		free(current);
-		current = next_node;
-
-		if (current == *h)
-		{
-			free(*h);
-			*h = NULL;
-			nc++;
+		/* If a loop is detected, break out of the loop */
+		if (slow == fast)
 			break;
+	}
+
+	if (slow == fast)
+	{
+		/* Loop detected, move one pointer to the start and keep the other at the collision point */
+		slow = *h;
+		while (slow != fast)
+		{
+			temp = slow;
+			slow = slow->next;
+			free(temp);
+			size++;
+		}
+
+		/* Move both pointers until they meet again (end of loop) */
+		while (fast->next != slow)
+		{
+			temp = fast;
+			fast = fast->next;
+			free(temp);
+			size++;
+		}
+	}
+	else
+	{
+		/* No loop, simply free each node */
+		while (*h != NULL)
+		{
+			temp = *h;
+			*h = (*h)->next;
+			free(temp);
+			size++;
 		}
 	}
 
-	*h = NULL;
-	return (nc);
+	*h = NULL; /* Set the h to NULL after freeing the list */
+	return (size);
 }

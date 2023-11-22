@@ -7,55 +7,39 @@
  */
 size_t free_listint_safe(listint_t **h)
 {
-	size_t size = 0;
-	listint_t *slow = *h, *fast = *h, *temp = NULL;
+	int dif;
+	size_t nc = 0;
+	listint_t *temp;
 
 	if (!h || !*h)
 		return (0);
 
-	while (fast != NULL && fast->next != NULL)
+	while (*h)
 	{
-		slow = slow->next;
-		fast = fast->next->next;
+		/* Checks the difference in addrs between the cur node and the next */
+		dif = *h - (*h)->next;
 
-		/* If a loop is detected, break out of the loop */
-		if (slow == fast)
+		/* If dif = 0 or is positive, then we are not in a loop */
+		/* and the function frees the current node and moves on to the next */
+		if (dif >= 0)
+		{
+			temp = (*h)->next;
+			free(*h);
+			*h = temp;
+			nc++;
+		}
+		/* If dif is less than 0, then we have a loop */
+		/* and the function breaks out after freeing the current node */
+		else
+		{
+			free(*h);
+			*h = NULL;
+			nc++;
 			break;
-	}
-
-	if (slow == fast)
-	{
-		/* Loop detected, move one pointer to the start and keep the other at the collision point */
-		slow = *h;
-		while (slow != fast)
-		{
-			temp = slow;
-			slow = slow->next;
-			free(temp);
-			size++;
-		}
-
-		/* Move both pointers until they meet again (end of loop) */
-		while (fast->next != slow)
-		{
-			temp = fast;
-			fast = fast->next;
-			free(temp);
-			size++;
-		}
-	}
-	else
-	{
-		/* No loop, simply free each node */
-		while (*h != NULL)
-		{
-			temp = *h;
-			*h = (*h)->next;
-			free(temp);
-			size++;
 		}
 	}
 
-	*h = NULL; /* Set the h to NULL after freeing the list */
-	return (size);
+	*h = NULL;
+
+	return (nc);
 }

@@ -6,4 +6,9 @@
  * @index: the index of the bit
  * Return: The value of the bit at the given index or -1 if error
  */
-int get_bit(unsigned long int n, unsigned int index) {}
+int get_bit(unsigned long int n, unsigned int index)
+{
+	/* Right shift the number by the given index */
+	/* then bitwise the result with (&) 1 to get the bit */
+	return ((n >> index) & 1);
+}

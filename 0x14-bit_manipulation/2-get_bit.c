@@ -8,7 +8,10 @@
  */
 int get_bit(unsigned long int n, unsigned int index)
 {
-	/* Right shift the number by the given index */
-	/* then bitwise the result with (&) 1 to get the bit */
+	/* Index out of range */
+	if (index >= sizeof(n) * 8)
+		return (-1);
+	/* Right shift the number by the given index then bitwise */
+	/* the result with (&) 1 to get the bit (0 or 1)*/
 	return ((n >> index) & 1);
 }

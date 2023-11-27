@@ -1,9 +1,10 @@
 #include "main.h"
+
 #define USAGE "Usage: cp file_from file_to\n"
 #define ErrMsgOnR "Error: Can't read from file %s\n"
-#define ErrMsgOnW "Error: Can't write to file %s\n"
+#define ErrMsgOnW "Error: Can't write to %s\n"
 #define ErrMsgOnC "Error: Can't close fd %i\n"
-#define PERMISSIONS S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
+#define PERMISSIONS (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH)
 
 /**
  * handle_err - Helper function to handle errors
@@ -32,7 +33,7 @@ int main(int argc, char **argv)
 	char buffer[BUFF_SIZE];
 	char *file_from, *file_to;
 	int fd_from = 0, fd_to = 0;
-	ssize_t bytes_read, bytes_written;
+	ssize_t bytes;
 
 	if (argc != 3)
 		handle_err(97, USAGE, NULL, 0);
@@ -48,18 +49,18 @@ int main(int argc, char **argv)
 	if (fd_to == -1)
 		handle_err(99, ErrMsgOnW, file_to, 0);
 
-	while ((bytes_read = read(fd_from, buffer, BUFF_SIZE)) > 0)
+	while ((bytes = read(fd_from, buffer, BUFF_SIZE)) > 0)
 	{
-		bytes_written = write(fd_to, buffer, bytes_read);
-		if (bytes_written != bytes_read)
+		if (write(fd_to, buffer, bytes) != bytes)
 			handle_err(99, ErrMsgOnW, file_to, 0);
 	}
 
-	if (bytes_read == -1)
+	if (bytes == -1)
 		handle_err(98, ErrMsgOnR, file_from, 0);
 
 	fd_from = close(fd_from);
 	fd_to = close(fd_to);
+
 	if (fd_from)
 		handle_err(100, ErrMsgOnC, NULL, fd_from);
 	if (fd_to)

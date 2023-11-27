@@ -8,11 +8,15 @@
  * handle_err - Helper function to handle errors
  * @code: the exit number
  * @message: the error message to print upon exit
- * @arg: pointer to the optional arguments
+ * @p_arg: pointer to print optional argument
+ * @n_arg: number to print optional argument
  */
-void handle_err(int code, const char *message, const char *arg)
+void handle_err(int code, const char *message, const void *p_arg, int n_arg)
 {
-	dprintf(STDERR_FILENO, message, arg);
+	if (n_arg)
+		dprintf(STDERR_FILENO, message, n_arg);
+	else
+		dprintf(STDERR_FILENO, message, p_arg);
 	exit(code);
 }
 
@@ -30,35 +34,35 @@ int main(int argc, char **argv)
 	ssize_t bytes_read, bytes_written;
 
 	if (argc != 3)
-		handle_err(97, USAGE, NULL);
+		handle_err(97, USAGE, NULL, 0);
 
 	file_from = argv[1];
 	file_to = argv[2];
 
 	fd_from = open(file_from, O_RDONLY);
 	if (fd_from == -1)
-		handle_err(98, ErrMsgOnR, file_from);
+		handle_err(98, ErrMsgOnR, file_from, 0);
 
 	fd_to = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (fd_to == -1)
-		handle_err(99, ErrMsgOnW, file_to);
+		handle_err(99, ErrMsgOnW, file_to, 0);
 
 	while ((bytes_read = read(fd_from, buffer, BUFF_SIZE)) > 0)
 	{
 		bytes_written = write(fd_to, buffer, bytes_read);
 		if (bytes_written != bytes_read)
-			handle_err(99, ErrMsgOnW, file_to);
+			handle_err(99, ErrMsgOnW, file_to, 0);
 	}
 
 	if (bytes_read == -1)
-		handle_err(98, ErrMsgOnR, file_from);
+		handle_err(98, ErrMsgOnR, file_from, 0);
 
 	fd_from = close(fd_from);
 	fd_to = close(fd_to);
 	if (fd_from)
-		handle_err(100, ErrMsgOnC, fd_from);
+		handle_err(100, ErrMsgOnC, NULL, fd_from);
 	if (fd_to)
-		handle_err(100, ErrMsgOnC, fd_to);
+		handle_err(100, ErrMsgOnC, NULL, fd_to);
 
 	return (EXIT_SUCCESS);
 }

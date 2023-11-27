@@ -3,6 +3,7 @@
 #define ErrMsgOnR "Error: Can't read from file %s\n"
 #define ErrMsgOnW "Error: Can't write to file %s\n"
 #define ErrMsgOnC "Error: Can't close fd %i\n"
+#define PERMISSIONS S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
 
 /**
  * handle_err - Helper function to handle errors
@@ -43,7 +44,7 @@ int main(int argc, char **argv)
 	if (fd_from == -1)
 		handle_err(98, ErrMsgOnR, file_from, 0);
 
-	fd_to = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	fd_to = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, PERMISSIONS);
 	if (fd_to == -1)
 		handle_err(99, ErrMsgOnW, file_to, 0);
 

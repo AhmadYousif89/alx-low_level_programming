@@ -28,9 +28,9 @@ void handle_err(int code, const char *message, const void *p_arg, int n_arg)
  */
 int main(int argc, char **argv)
 {
-	int fd_from = 0, fd_to = 0;
 	char buffer[BUFF_SIZE];
-	const char *file_from, *file_to;
+	char *file_from, *file_to;
+	int fd_from = 0, fd_to = 0;
 	ssize_t bytes_read, bytes_written;
 
 	if (argc != 3)
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
 	if (fd_from)
 		handle_err(100, ErrMsgOnC, NULL, fd_from);
 	if (fd_to)
-		handle_err(100, ErrMsgOnC, NULL, fd_to);
+		handle_err(100, ErrMsgOnC, NULL, fd_from);
 
 	return (EXIT_SUCCESS);
 }

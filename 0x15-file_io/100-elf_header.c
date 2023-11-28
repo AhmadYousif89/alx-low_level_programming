@@ -125,6 +125,9 @@ void print_version(Elf64_Ehdr header)
 	case EV_CURRENT:
 		printf("%s", " (current)");
 		break;
+	case EV_NONE:
+		printf("");
+		break;
 	}
 	printf("\n");
 }
@@ -177,9 +180,6 @@ void print_more_osabi(Elf64_Ehdr header)
 {
 	switch (header.e_ident[EI_OSABI])
 	{
-	case ELFOSABI_GNU:
-		printf("%s", "GNU Hurd");
-		break;
 	case ELFOSABI_ARM:
 		printf("%s", "ARM");
 		break;

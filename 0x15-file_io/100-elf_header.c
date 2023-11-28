@@ -30,21 +30,31 @@ int main(int argc, char *argv[])
 	char *filename;
 	/* Second argument not specified */
 	if (argc != 2)
-		dprintf(STDERR_FILENO, USAGE), exit(98);
+		dprintf(STDERR_FILENO, USAGE);
+	exit(98);
 
 	filename = argv[1];
 	/* Open the ELF file */
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		dprintf(STDERR_FILENO, ErrOnOpen, filename), exit(98);
+	{
+		dprintf(STDERR_FILENO, ErrOnOpen, filename);
+		exit(98);
+	}
 	/* Read the ELF header */
 	bytes = read(fd, &h, sizeof(h));
 	if (bytes != sizeof(h) || bytes < 1)
-		dprintf(STDERR_FILENO, ErrOnRead, filename), exit(98);
+	{
+		dprintf(STDERR_FILENO, ErrOnRead, filename);
+		exit(98);
+	}
 	/* Check if it's a valid ELF file */
 	if (h.e_ident[EI_MAG0] != 0x7f ||
 		strncmp((char *)&h.e_ident[EI_MAG1], "ELF", 3) != 0)
-		dprintf(STDERR_FILENO, ErrOnMatch, filename), exit(98);
+	{
+		dprintf(STDERR_FILENO, ErrOnMatch, filename);
+		exit(98);
+	}
 	/* Display ELF header information */
 	printf("ELF Header:\n");
 	printf("  Magic:   ");
@@ -59,7 +69,10 @@ int main(int argc, char *argv[])
 	print_entry(h.e_entry, h.e_ident);
 
 	if (close(fd))
-		dprintf(STDERR_FILENO, ErrOnClose, fd), exit(98);
+	{
+		dprintf(STDERR_FILENO, ErrOnClose, fd);
+		exit(98);
+	}
 
 	return (0);
 }

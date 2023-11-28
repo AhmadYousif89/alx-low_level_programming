@@ -7,21 +7,61 @@
 #define ErrOnMatch "Error: Not an ELF file: %s\n"
 #define ErrOnClose "Error: Closing file descriptor: %i\n"
 
+void print_data(Elf64_Ehdr header);
+void print_abiv(Elf64_Ehdr header);
+void print_type(Elf64_Ehdr header);
+void print_class(Elf64_Ehdr header);
+void print_osabi(Elf64_Ehdr header);
+void print_version(Elf64_Ehdr header);
 void print_more_osabi(Elf64_Ehdr header);
+void print_entryaddrs(Elf64_Ehdr header);
 
 /**
- * handle_err - Helper function to handle errors
- * @message: the error message to print upon exit
- * @p_arg: pointer to print optional argument
- * @n_arg: number to print optional argument
+ * main - Display the information contained in the ELF header
+ * @argc: count of args
+ * @argv: array of strings containing the command-line arguments.
+ * Return: Always (0)
  */
-void handle_err(const char *message, const void *p_arg, int n_arg)
+int main(int argc, char *argv[])
 {
-	if (n_arg)
-		dprintf(STDERR_FILENO, message, n_arg);
-	else
-		dprintf(STDERR_FILENO, message, p_arg);
-	exit(98);
+	int i, fd;
+	Elf64_Ehdr h;
+	ssize_t bytes;
+	char *filename;
+	/* Second argument not specified */
+	if (argc != 2)
+		dprintf(STDERR_FILENO, USAGE), exit(98);
+
+	filename = argv[1];
+	/* Open the ELF file */
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		dprintf(STDERR_FILENO, ErrOnOpen, filename), exit(98);
+	/* Read the ELF header */
+	bytes = read(fd, &h, sizeof(h));
+	if (bytes != sizeof(h) || bytes < 1)
+		dprintf(STDERR_FILENO, ErrOnRead, filename), exit(98);
+	/* Check if it's a valid ELF file */
+	if (h.e_ident[0] != 0x7f ||
+		strncmp((char *)&h.e_ident[1], "ELF", 3) != 0)
+		dprintf(STDERR_FILENO, ErrOnMatch, filename), exit(98);
+	/* Display ELF header information */
+	printf("ELF Header:\n");
+	printf("  Magic:   ");
+	for (i = 0; i < EI_NIDENT; i++)
+		printf("%02x%s", h.e_ident[i], i == EI_NIDENT - 1 ? "\n" : " ");
+
+	print_class(h);
+	print_data(h);
+	print_version(h);
+	print_osabi(h);
+	print_abiv(h);
+	print_type(h);
+	print_entryaddrs(h);
+
+	if (close(fd))
+		dprintf(STDERR_FILENO, ErrOnClose, fd), exit(98);
+	return (0);
 }
 
 /**
@@ -225,52 +265,4 @@ void print_entryaddrs(Elf64_Ehdr header)
 		printf(i == size - 1 ? "%x" : "%02x", ptr[i]);
 
 	printf("\n");
-}
-
-/**
- * main - Display the information contained in the ELF header
- * @argc: count of args
- * @argv: array of strings containing the command-line arguments.
- * Return: Always (0)
- */
-int main(int argc, char *argv[])
-{
-	int i, fd;
-	Elf64_Ehdr h;
-	ssize_t bytes;
-	char *filename;
-	/* Second argument not specified */
-	if (argc != 2)
-		handle_err(USAGE, NULL, 0);
-
-	filename = argv[1];
-	/* Open the ELF file */
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		handle_err(ErrOnOpen, filename, 0);
-	/* Read the ELF header */
-	bytes = read(fd, &h, sizeof(h));
-	if (bytes != sizeof(h) || bytes < 1)
-		handle_err(ErrOnRead, filename, 0);
-	/* Check if it's a valid ELF file */
-	if (h.e_ident[0] != 0x7f ||
-		strncmp((char *)&h.e_ident[1], "ELF", 3) != 0)
-		handle_err(ErrOnMatch, filename, 0);
-	/* Display ELF header information */
-	printf("ELF Header:\n");
-	printf("  Magic:   ");
-	for (i = 0; i < EI_NIDENT; i++)
-		printf("%02x%s", h.e_ident[i], i == EI_NIDENT - 1 ? "\n" : " ");
-
-	print_class(h);
-	print_data(h);
-	print_version(h);
-	print_osabi(h);
-	print_abiv(h);
-	print_type(h);
-	print_entryaddrs(h);
-
-	if (close(fd))
-		handle_err(ErrOnClose, filename, fd);
-	return (0);
 }

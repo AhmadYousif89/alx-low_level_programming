@@ -241,9 +241,7 @@ int main(int argc, char *argv[])
 	int i, fd;
 	ssize_t bytes;
 	Elf64_Ehdr *header;
-	/* Second argument not specified */
-	if (argc != 2)
-		handle_err(USAGE, NULL, 0);
+	(void)argc;
 
 	/* Open the ELF file */
 	fd = open(argv[1], O_RDONLY);

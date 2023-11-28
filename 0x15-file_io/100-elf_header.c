@@ -269,20 +269,20 @@ int main(int argc, char *argv[])
 		handle_err(ErrOnMatch, filename, 0);
 	}
 	/* Display ELF header information */
-	printf("ELF Header:\n");
-	printf("  Magic:   ");
+	printf("ELF Header:\n  Magic:   ");
 	for (i = 0; i < EI_NIDENT; i++)
 		printf("%02x%s", header->e_ident[i], i == EI_NIDENT - 1 ? "\n" : " ");
-
-	print_class(header->e_ident);
-	print_data(header->e_ident);
-	print_version(header->e_ident);
-	print_osabi(header->e_ident);
 	print_abi(header->e_ident);
+	print_data(header->e_ident);
+	print_class(header->e_ident);
+	print_osabi(header->e_ident);
+	print_version(header->e_ident);
 	print_type(header->e_type, header->e_ident);
 	print_entry(header->e_entry, header->e_ident);
 
 	free(header);
-	close_elf(fd);
+	if (close(fd) == -1)
+		handle_err(ErrOnClose, filename, fd);
+
 	return (0);
 }

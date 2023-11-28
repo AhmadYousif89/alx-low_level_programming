@@ -18,6 +18,64 @@ void print_entry(unsigned long int e_entry, unsigned char *e_ident);
 void handle_err(const char *message, const void *p_arg, int n_arg);
 
 /**
+ * main - Display the information contained in the ELF header
+ * @argc: count of args
+ * @argv: array of strings containing the command-line arguments.
+ * Return: Always (0)
+ */
+int main(int argc, char *argv[])
+{
+	int i, fd;
+	ssize_t bytes;
+	char *filename;
+	Elf64_Ehdr *header;
+	/* Second argument not specified */
+	if (argc != 2)
+		handle_err(USAGE, NULL, 0);
+
+	filename = argv[1];
+	/* Open the ELF file */
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		handle_err(ErrOnOpen, filename, 0);
+	/* Allocate memory for the ELF header */
+	header = malloc(sizeof(Elf64_Ehdr));
+	if (header == NULL)
+		handle_err(ErrOnOpen, filename, 0);
+	/* Read the ELF header */
+	bytes = read(fd, header, sizeof(Elf64_Ehdr));
+	if (bytes < 1 || bytes != sizeof(Elf64_Ehdr))
+	{
+		free(header);
+		handle_err(ErrOnRead, filename, 0);
+	}
+	/* Check if it's a valid ELF file */
+	if (header->e_ident[EI_MAG0] != 0x7f ||
+		strncmp((char *)&header->e_ident[EI_MAG1], "ELF", 3) != 0)
+	{
+		free(header);
+		handle_err(ErrOnMatch, filename, 0);
+	}
+	/* Display ELF header information */
+	printf("ELF Header:\n  Magic:   ");
+	for (i = 0; i < EI_NIDENT; i++)
+		printf("%02x%s", header->e_ident[i], i == EI_NIDENT - 1 ? "\n" : " ");
+	print_class(header->e_ident);
+	print_data(header->e_ident);
+	print_version(header->e_ident);
+	print_osabi(header->e_ident);
+	print_abi(header->e_ident);
+	print_type(header->e_type, header->e_ident);
+	print_entry(header->e_entry, header->e_ident);
+
+	free(header);
+	if (close(fd) == -1)
+		handle_err(ErrOnClose, filename, fd);
+
+	return (0);
+}
+
+/**
  * print_class - Prints the class of an ELF header.
  * @e_ident: A pointer to an array containing the ELF class.
  */
@@ -210,62 +268,4 @@ void handle_err(const char *message, const void *p_arg, int n_arg)
 	else
 		dprintf(STDERR_FILENO, message, p_arg);
 	exit(98);
-}
-
-/**
- * main - Display the information contained in the ELF header
- * @argc: count of args
- * @argv: array of strings containing the command-line arguments.
- * Return: Always (0)
- */
-int main(int argc, char *argv[])
-{
-	int i, fd;
-	ssize_t bytes;
-	char *filename;
-	Elf64_Ehdr *header;
-	/* Second argument not specified */
-	if (argc != 2)
-		handle_err(USAGE, NULL, 0);
-
-	filename = argv[1];
-	/* Open the ELF file */
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		handle_err(ErrOnOpen, filename, 0);
-	/* Allocate memory for the ELF header */
-	header = malloc(sizeof(Elf64_Ehdr));
-	if (header == NULL)
-		handle_err(ErrOnOpen, filename, 0);
-	/* Read the ELF header */
-	bytes = read(fd, header, sizeof(Elf64_Ehdr));
-	if (bytes < 1 || bytes != sizeof(Elf64_Ehdr))
-	{
-		free(header);
-		handle_err(ErrOnRead, filename, 0);
-	}
-	/* Check if it's a valid ELF file */
-	if (header->e_ident[EI_MAG0] != 0x7f ||
-		strncmp((char *)&header->e_ident[EI_MAG1], "ELF", 3) != 0)
-	{
-		free(header);
-		handle_err(ErrOnMatch, filename, 0);
-	}
-	/* Display ELF header information */
-	printf("ELF Header:\n  Magic:   ");
-	for (i = 0; i < EI_NIDENT; i++)
-		printf("%02x%s", header->e_ident[i], i == EI_NIDENT - 1 ? "\n" : " ");
-	print_class(header->e_ident);
-	print_data(header->e_ident);
-	print_version(header->e_ident);
-	print_osabi(header->e_ident);
-	print_abi(header->e_ident);
-	print_type(header->e_type, header->e_ident);
-	print_entry(header->e_entry, header->e_ident);
-
-	free(header);
-	if (close(fd) == -1)
-		handle_err(ErrOnClose, filename, fd);
-
-	return (0);
 }

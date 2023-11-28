@@ -282,7 +282,7 @@ int main(int argc, char *argv[])
 
 	free(header);
 	if (close(fd) == -1)
-		handle_err(ErrOnClose, filename, fd);
+		handle_err(ErrOnClose, 0, fd);
 
 	return (0);
 }

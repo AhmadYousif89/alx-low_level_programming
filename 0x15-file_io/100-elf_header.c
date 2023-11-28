@@ -215,6 +215,21 @@ void close_elf(int elf)
 }
 
 /**
+ * handle_err - Helper function to handle errors
+ * @message: the error message to print upon exit
+ * @p_arg: pointer to print optional argument
+ * @n_arg: number to print optional argument
+ */
+void handle_err(const char *message, const void *p_arg, int n_arg)
+{
+	if (n_arg)
+		dprintf(STDERR_FILENO, message, n_arg);
+	else
+		dprintf(STDERR_FILENO, message, p_arg);
+	exit(98);
+}
+
+/**
  * main - Display the information contained in the ELF header
  * @argc: count of args
  * @argv: array of strings containing the command-line arguments.
@@ -228,10 +243,7 @@ int main(int argc, char *argv[])
 	Elf64_Ehdr *header;
 	/* Second argument not specified */
 	if (argc != 2)
-	{
-		dprintf(STDERR_FILENO, "%s", USAGE);
-		exit(98);
-	}
+		handle_err(USAGE, NULL, 0);
 
 	filename = argv[1];
 	fd = open(filename, O_RDONLY);

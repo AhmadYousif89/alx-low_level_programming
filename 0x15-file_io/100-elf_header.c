@@ -20,29 +20,6 @@ void handle_err(const char *message, const void *p_arg, int n_arg);
 void close_elf(int elf);
 
 /**
- * print_magic - Prints the magic numbers of an ELF header.
- * @e_ident: A pointer to an array containing the ELF magic numbers.
- *
- * Description: Magic numbers are separated by spaces.
- */
-void print_magic(unsigned char *e_ident)
-{
-	int index;
-
-	printf("  Magic:   ");
-
-	for (index = 0; index < EI_NIDENT; index++)
-	{
-		printf("%02x", e_ident[index]);
-
-		if (index == EI_NIDENT - 1)
-			printf("\n");
-		else
-			printf(" ");
-	}
-}
-
-/**
  * print_class - Prints the class of an ELF header.
  * @e_ident: A pointer to an array containing the ELF class.
  */
@@ -274,19 +251,15 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 	if (argc != 2)
 		handle_err(USAGE, NULL, 0);
 
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-	{
-		free(header);
-		handle_err(ErrOnOpen, filename, 0);
-	}
+	filename = argv[1];
 	header = malloc(sizeof(Elf64_Ehdr));
-	if (header == NULL)
-	{
-		close_elf(fd);
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
-		exit(98);
-	}
+	if (!header)
+		handle_err(ErrOnMalloc, header, 0);
+	/* Open the ELF file */
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		handle_err(ErrOnOpen, filename, 0);
+
 	bytes = read(fd, header, sizeof(Elf64_Ehdr));
 	if (bytes == -1)
 	{
@@ -305,7 +278,8 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 	}
 
 	printf("ELF Header:\n");
-	print_magic(header->e_ident);
+	for (i = 0; i < EI_NIDENT; i++)
+		printf("%02x%s", header->e_ident[i], i == EI_NIDENT - 1 ? "\n" : " ");
 	print_class(header->e_ident);
 	print_data(header->e_ident);
 	print_version(header->e_ident);

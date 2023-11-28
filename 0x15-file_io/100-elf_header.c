@@ -7,6 +7,8 @@
 #define ErrOnMatch "Error: Not an ELF file: %s\n"
 #define ErrOnClose "Error: Closing file descriptor: %i\n"
 
+void print_more_osabi(Elf64_Ehdr header);
+
 /**
  * handle_err - Helper function to handle errors
  * @message: the error message to print upon exit
@@ -86,7 +88,6 @@ void print_version(Elf64_Ehdr header)
 	printf("\n");
 }
 
-void print_more_osabi(Elf64_Ehdr header);
 /**
  * print_osabi - .
  * @header: ELF header struct
@@ -209,31 +210,20 @@ void print_type(Elf64_Ehdr header)
  */
 void print_entryaddrs(Elf64_Ehdr header)
 {
-	int i = 0, x = 0;
 	unsigned char *ptr = (unsigned char *)&header.e_entry;
+	int size = (header.e_ident[EI_CLASS] == ELFCLASS32) ? 4 : 8;
+	int i;
 
 	printf("  Entry point address:               0x");
 
-	if (header.e_ident[EI_CLASS] == ELFDATA2LSB)
-	{
-		i = header.e_ident[EI_CLASS] == ELFCLASS32 ? 3 : 7;
+	/* Determine the first non-zero byte index */
+	for (i = size - 1; i >= 0 && !ptr[i]; i--)
+		continue;
 
-		while (!ptr[i])
-			i--;
-		printf("%x", ptr[i--]);
-		for (; i >= 0; i--)
-			printf("%02x", ptr[i]);
-	}
-	else
-	{
-		i = 0;
-		x = header.e_ident[EI_CLASS] == ELFCLASS32 ? 3 : 7;
-		while (!ptr[i])
-			i++;
-		printf("%x", ptr[i++]);
-		for (; i <= x; i++)
-			printf("%02x", ptr[i]);
-	}
+	/* Print the entry point address */
+	for (; i >= 0; i--)
+		printf(i == size - 1 ? "%x" : "%02x", ptr[i]);
+
 	printf("\n");
 }
 
@@ -255,7 +245,7 @@ int main(int argc, char *argv[])
 
 	filename = argv[1];
 	/* Open the ELF file */
-	fd = open(argv[1], O_RDONLY);
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		handle_err(ErrOnOpen, filename, 0);
 	/* Read the ELF header */
@@ -267,7 +257,8 @@ int main(int argc, char *argv[])
 		strncmp((char *)&h.e_ident[1], "ELF", 3) != 0)
 		handle_err(ErrOnMatch, filename, 0);
 	/* Display ELF header information */
-	printf("ELF Header:\n  Magic:   ");
+	printf("ELF Header:\n");
+	printf("  Magic:   ");
 	for (i = 0; i < EI_NIDENT; i++)
 		printf("%02x%s", h.e_ident[i], i == EI_NIDENT - 1 ? "\n" : " ");
 

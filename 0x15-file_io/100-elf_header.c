@@ -231,17 +231,12 @@ void handle_err(const char *message, const void *p_arg, int n_arg)
 }
 
 /**
- * main - Displays the information contained in the
- *        ELF header at the start of an ELF file.
- * @argc: The number of arguments supplied to the program.
- * @argv: An array of pointers to the arguments.
- *
- * Return: 0 on success.
- *
- * Description: If the file is not an ELF File or
- *              the function fails - exit code 98.
+ * main - Display the information contained in the ELF header
+ * @argc: count of args
+ * @argv: array of strings containing the command-line arguments.
+ * Return: Always (0)
  */
-int main(int __attribute__((__unused__)) argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	int i, fd;
 	ssize_t bytes;

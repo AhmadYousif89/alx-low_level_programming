@@ -253,10 +253,11 @@ int main(int argc, char *argv[])
 		handle_err(ErrOnOpen, filename, 0);
 	/* Allocate memory for the ELF header */
 	header = malloc(sizeof(Elf64_Ehdr));
-	if (!header)
+	if (header == NULL)
 	{
-		close(fd);
-		handle_err(ErrOnMalloc, header, 0);
+		close_elf(fd);
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		exit(98);
 	}
 	bytes = read(fd, header, sizeof(Elf64_Ehdr));
 	if (bytes == -1)

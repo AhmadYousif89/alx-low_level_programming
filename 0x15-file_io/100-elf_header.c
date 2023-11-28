@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 	/* Allocate memory for the ELF header */
 	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)
-		handle_err(ErrOnOpen, filename, 0);
+		handle_err(ErrOnMalloc, filename, 0);
 	/* Read the ELF header */
 	bytes = read(fd, header, sizeof(Elf64_Ehdr));
 	if (bytes < 1 || bytes != sizeof(Elf64_Ehdr))
@@ -239,21 +239,18 @@ void print_type(unsigned int e_type, unsigned char *e_ident)
  */
 void print_entry(unsigned long int e_entry, unsigned char *e_ident)
 {
-	int i;
-	unsigned char *ptr = (unsigned char *)&e_entry;
-	int size = (e_ident[EI_CLASS] == ELFCLASS32) ? 4 : 8;
-
 	printf("  Entry point address:               0x");
 
-	/* Determine the first non-zero byte index */
-	for (i = size - 1; i >= 0 && !ptr[i]; i--)
-		continue;
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
+	{
+		e_entry = ((e_entry << 8) & 0xFF00FF00) | ((e_entry >> 8) & 0xFF00FF);
+		e_entry = (e_entry << 16) | (e_entry >> 16);
+	}
 
-	/* Print the entry point address */
-	for (; i >= 0; i--)
-		printf(i == size - 1 ? "%x" : "%02x", ptr[i]);
-
-	printf("\n");
+	if (e_ident[EI_CLASS] == ELFCLASS64)
+		printf("%lx\n", e_entry);
+	else
+		printf("%x\n", (unsigned int)e_entry);
 }
 
 /**

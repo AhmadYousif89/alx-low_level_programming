@@ -254,14 +254,13 @@ int main(int argc, char *argv[])
 	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)
 		handle_err(ErrOnOpen, filename, 0);
-
+	/* Read the ELF header */
 	bytes = read(fd, header, sizeof(Elf64_Ehdr));
-	if (bytes == -1)
+	if (bytes < 1 || bytes != sizeof(Elf64_Ehdr))
 	{
 		free(header);
-		close_elf(fd);
-		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", filename);
-		exit(98);
+		close(fd);
+		handle_err(ErrOnRead, filename, 0);
 	}
 
 	/* Check if it's a valid ELF file */

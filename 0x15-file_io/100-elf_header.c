@@ -13,6 +13,7 @@ void print_data(unsigned char *e_ident);
 void print_version(unsigned char *e_ident);
 void print_abiv(unsigned char *e_ident);
 void print_osabi(unsigned char *e_ident);
+void print_more_osabi(unsigned char *e_ident);
 void print_type(unsigned int e_type, unsigned char *e_ident);
 void print_entry(unsigned long int e_entry, unsigned char *e_ident);
 void handle_err(const char *message, const void *p_arg, int n_arg);
@@ -82,21 +83,21 @@ int main(int argc, char *argv[])
 void print_class(unsigned char *e_ident)
 {
 	printf("  Class:                             ");
-
 	switch (e_ident[EI_CLASS])
 	{
-	case ELFCLASSNONE:
-		printf("none\n");
+	case ELFCLASS64:
+		printf("ELF%d", 64);
 		break;
 	case ELFCLASS32:
-		printf("ELF32\n");
+		printf("ELF%d", 32);
 		break;
-	case ELFCLASS64:
-		printf("ELF64\n");
+	case ELFCLASSNONE:
+		printf("none");
 		break;
 	default:
 		printf("<unknown: %x>\n", e_ident[EI_CLASS]);
 	}
+	printf("\n");
 }
 
 /**
@@ -106,21 +107,21 @@ void print_class(unsigned char *e_ident)
 void print_data(unsigned char *e_ident)
 {
 	printf("  Data:                              ");
-
 	switch (e_ident[EI_DATA])
 	{
-	case ELFDATANONE:
-		printf("none\n");
-		break;
 	case ELFDATA2LSB:
-		printf("2's complement, little endian\n");
+		printf("%s", "2's complement, little endian");
 		break;
 	case ELFDATA2MSB:
-		printf("2's complement, big endian\n");
+		printf("%s", "2's complement, big endian");
+		break;
+	case ELFDATANONE:
+		printf("none");
 		break;
 	default:
 		printf("<unknown: %x>\n", e_ident[EI_CLASS]);
 	}
+	printf("\n");
 }
 
 /**
@@ -129,18 +130,15 @@ void print_data(unsigned char *e_ident)
  */
 void print_version(unsigned char *e_ident)
 {
-	printf("  Version:                           %d",
-		   e_ident[EI_VERSION]);
-
+	printf("  Version:                           ");
+	printf("%d", e_ident[EI_VERSION]);
 	switch (e_ident[EI_VERSION])
 	{
 	case EV_CURRENT:
-		printf(" (current)\n");
-		break;
-	default:
-		printf("\n");
+		printf("%s", " (current)");
 		break;
 	}
+	printf("\n");
 }
 
 /**
@@ -150,41 +148,65 @@ void print_version(unsigned char *e_ident)
 void print_osabi(unsigned char *e_ident)
 {
 	printf("  OS/ABI:                            ");
-
 	switch (e_ident[EI_OSABI])
 	{
 	case ELFOSABI_NONE:
-		printf("UNIX - System V\n");
+		printf("%s", "UNIX - System V");
 		break;
 	case ELFOSABI_HPUX:
-		printf("UNIX - HP-UX\n");
+		printf("%s", "UNIX - HP-UX");
 		break;
 	case ELFOSABI_NETBSD:
-		printf("UNIX - NetBSD\n");
+		printf("%s", "UNIX - NetBSD");
 		break;
 	case ELFOSABI_LINUX:
-		printf("UNIX - Linux\n");
+		printf("%s", "UNIX - Linux");
 		break;
 	case ELFOSABI_SOLARIS:
-		printf("UNIX - Solaris\n");
+		printf("%s", "UNIX - Solaris");
+		break;
+	case ELFOSABI_AIX:
+		printf("%s", "UNIX - AIX");
 		break;
 	case ELFOSABI_IRIX:
-		printf("UNIX - IRIX\n");
+		printf("%s", "UNIX - IRIX");
 		break;
 	case ELFOSABI_FREEBSD:
-		printf("UNIX - FreeBSD\n");
-		break;
-	case ELFOSABI_TRU64:
-		printf("UNIX - TRU64\n");
-		break;
-	case ELFOSABI_ARM:
-		printf("ARM\n");
-		break;
-	case ELFOSABI_STANDALONE:
-		printf("Standalone App\n");
+		printf("%s", "UNIX - FreeBSD");
 		break;
 	default:
-		printf("<unknown: %x>\n", e_ident[EI_OSABI]);
+		print_more_osabi(e_ident);
+		break;
+	}
+	printf("\n");
+}
+
+/**
+ * print_more_osabi - .
+ * @e_ident: A pointer to an array containing the ELF identification bytes.
+ */
+void print_more_osabi(unsigned char *e_ident)
+{
+	switch (e_ident[EI_OSABI])
+	{
+	case ELFOSABI_ARM:
+		printf("%s", "ARM");
+		break;
+	case ELFOSABI_TRU64:
+		printf("%s", "UNIX - TRU64");
+		break;
+	case ELFOSABI_MODESTO:
+		printf("%s", "Novell - Modesto");
+		break;
+	case ELFOSABI_OPENBSD:
+		printf("%s", "UNIX - OpenBSD");
+		break;
+	case ELFOSABI_STANDALONE:
+		printf("%s", "Standalone App");
+		break;
+	default:
+		printf("<unknown: %x>", e_ident[EI_OSABI]);
+		break;
 	}
 }
 
@@ -205,31 +227,33 @@ void print_abiv(unsigned char *e_ident)
  */
 void print_type(unsigned int e_type, unsigned char *e_ident)
 {
+	printf("  Type:                              ");
+
 	if (e_ident[EI_DATA] == ELFDATA2MSB)
 		e_type >>= 8;
-
-	printf("  Type:                              ");
 
 	switch (e_type)
 	{
 	case ET_NONE:
-		printf("NONE (None)\n");
-		break;
-	case ET_REL:
-		printf("REL (Relocatable file)\n");
+		printf("%s", "NONE (None)");
 		break;
 	case ET_EXEC:
-		printf("EXEC (Executable file)\n");
+		printf("%s", "EXEC (Executable file)");
 		break;
-	case ET_DYN:
-		printf("DYN (Shared object file)\n");
+	case ET_REL:
+		printf("%s", "REL (Relocatable file)");
 		break;
 	case ET_CORE:
-		printf("CORE (Core file)\n");
+		printf("%s", "CORE (Core file)");
+		break;
+	case ET_DYN:
+		printf("%s", "DYN (Shared Object file)");
 		break;
 	default:
-		printf("<unknown: %x>\n", e_type);
+		printf("<unknown: %x>", e_type);
+		break;
 	}
+	printf("\n");
 }
 
 /**

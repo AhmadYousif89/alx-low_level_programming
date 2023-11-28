@@ -126,7 +126,7 @@ void print_version(Elf64_Ehdr header)
 		printf("%s", " (current)");
 		break;
 	case EV_NONE:
-		printf("");
+		printf("%s", "");
 		break;
 	}
 	printf("\n");

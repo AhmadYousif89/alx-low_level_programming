@@ -252,14 +252,17 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 		handle_err(USAGE, NULL, 0);
 
 	filename = argv[1];
-	header = malloc(sizeof(Elf64_Ehdr));
-	if (!header)
-		handle_err(ErrOnMalloc, header, 0);
 	/* Open the ELF file */
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		handle_err(ErrOnOpen, filename, 0);
-
+	/* Allocate memory for the ELF header */
+	header = malloc(sizeof(Elf64_Ehdr));
+	if (!header)
+	{
+		close(fd);
+		handle_err(ErrOnMalloc, header, 0);
+	}
 	bytes = read(fd, header, sizeof(Elf64_Ehdr));
 	if (bytes == -1)
 	{

@@ -13,7 +13,6 @@ void print_data(unsigned char *e_ident);
 void print_version(unsigned char *e_ident);
 void print_abiv(unsigned char *e_ident);
 void print_osabi(unsigned char *e_ident);
-void print_more_osabi(unsigned char *e_ident);
 void print_type(unsigned int e_type, unsigned char *e_ident);
 void print_entry(unsigned long int e_entry, unsigned char *e_ident);
 void handle_err(const char *message, const void *p_arg, int n_arg);
@@ -145,68 +144,49 @@ void print_version(unsigned char *e_ident)
  * print_osabi - .
  * @e_ident: A pointer to an array containing the ELF identification bytes.
  */
+
+/**
+ * print_osabi - Prints the OS/ABI of an ELF header.
+ * @e_ident: A pointer to an array containing the ELF version.
+ */
 void print_osabi(unsigned char *e_ident)
 {
 	printf("  OS/ABI:                            ");
+
 	switch (e_ident[EI_OSABI])
 	{
 	case ELFOSABI_NONE:
-		printf("%s", "UNIX - System V");
+		printf("UNIX - System V\n");
 		break;
 	case ELFOSABI_HPUX:
-		printf("%s", "UNIX - HP-UX");
+		printf("UNIX - HP-UX\n");
 		break;
 	case ELFOSABI_NETBSD:
-		printf("%s", "UNIX - NetBSD");
+		printf("UNIX - NetBSD\n");
 		break;
 	case ELFOSABI_LINUX:
-		printf("%s", "UNIX - Linux");
+		printf("UNIX - Linux\n");
 		break;
 	case ELFOSABI_SOLARIS:
-		printf("%s", "UNIX - Solaris");
-		break;
-	case ELFOSABI_AIX:
-		printf("%s", "UNIX - AIX");
+		printf("UNIX - Solaris\n");
 		break;
 	case ELFOSABI_IRIX:
-		printf("%s", "UNIX - IRIX");
+		printf("UNIX - IRIX\n");
 		break;
 	case ELFOSABI_FREEBSD:
-		printf("%s", "UNIX - FreeBSD");
-		break;
-	default:
-		print_more_osabi(e_ident);
-		break;
-	}
-	printf("\n");
-}
-
-/**
- * print_more_osabi - .
- * @e_ident: A pointer to an array containing the ELF identification bytes.
- */
-void print_more_osabi(unsigned char *e_ident)
-{
-	switch (e_ident[EI_OSABI])
-	{
-	case ELFOSABI_ARM:
-		printf("%s", "ARM");
+		printf("UNIX - FreeBSD\n");
 		break;
 	case ELFOSABI_TRU64:
-		printf("%s", "UNIX - TRU64");
+		printf("UNIX - TRU64\n");
 		break;
-	case ELFOSABI_MODESTO:
-		printf("%s", "Novell - Modesto");
-		break;
-	case ELFOSABI_OPENBSD:
-		printf("%s", "UNIX - OpenBSD");
+	case ELFOSABI_ARM:
+		printf("ARM\n");
 		break;
 	case ELFOSABI_STANDALONE:
-		printf("%s", "Standalone App");
+		printf("Standalone App\n");
 		break;
 	default:
-		printf("<unknown: %x>", e_ident[EI_OSABI]);
-		break;
+		printf("<unknown: %x>\n", e_ident[EI_OSABI]);
 	}
 }
 

@@ -220,21 +220,19 @@ void close_elf(int elf)
  * @argv: array of strings containing the command-line arguments.
  * Return: Always (0)
  */
-int main(int argc, char *argv[])
+int main(int __attribute__((__unused__)) argc, char *argv[])
 {
 	int i, fd;
 	ssize_t bytes;
+	char *filename;
 	Elf64_Ehdr *header;
-	(void)argc;
 
-	/* Open the ELF file */
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
 		exit(98);
 	}
-	/* Allocate memory for the ELF header */
 	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)
 	{
@@ -250,18 +248,21 @@ int main(int argc, char *argv[])
 		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
 		exit(98);
 	}
+
 	/* Check if it's a valid ELF file */
 	if (header->e_ident[EI_MAG0] != 0x7f ||
 		strncmp((char *)&header->e_ident[EI_MAG1], "ELF", 3) != 0)
 	{
 		free(header);
-		dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
-		exit(98);
+		close(fd);
+		handle_err(ErrOnMatch, filename, 0);
 	}
-
+	/* Display ELF header information */
 	printf("ELF Header:\n");
+	printf("  Magic:   ");
 	for (i = 0; i < EI_NIDENT; i++)
 		printf("%02x%s", header->e_ident[i], i == EI_NIDENT - 1 ? "\n" : " ");
+
 	print_class(header->e_ident);
 	print_data(header->e_ident);
 	print_version(header->e_ident);

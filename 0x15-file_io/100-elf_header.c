@@ -281,11 +281,6 @@ int main(int argc, char *argv[])
 	print_entry(header->e_entry, header->e_ident);
 
 	free(header);
-	if (close(fd) == -1)
-	{
-		dprintf(STDERR_FILENO,
-				"Error: Can't close fd %d\n", fd);
-		exit(98);
-	}
+	close_elf(fd);
 	return (0);
 }

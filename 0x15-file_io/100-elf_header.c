@@ -253,9 +253,8 @@ int main(int argc, char *argv[])
 	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)
 	{
-		close_elf(fd);
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", filename);
-		exit(98);
+		close(fd);
+		handle_err(ErrOnOpen, filename, 0);
 	}
 	bytes = read(fd, header, sizeof(Elf64_Ehdr));
 	if (bytes == -1)

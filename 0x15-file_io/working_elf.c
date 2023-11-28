@@ -239,21 +239,20 @@ void print_type(unsigned int e_type, unsigned char *e_ident)
  */
 void print_entry(unsigned long int e_entry, unsigned char *e_ident)
 {
-	int i;
-	unsigned char *ptr = (unsigned char *)&e_entry;
-	int size = (e_ident[EI_CLASS] == ELFCLASS32) ? 4 : 8;
+	printf("  Entry point address:               ");
 
-	printf("  Entry point address:               0x");
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
+	{
+		e_entry = ((e_entry << 8) & 0xFF00FF00) |
+				  ((e_entry >> 8) & 0xFF00FF);
+		e_entry = (e_entry << 16) | (e_entry >> 16);
+	}
 
-	/* Determine the first non-zero byte index */
-	for (i = size - 1; i >= 0 && !ptr[i]; i--)
-		continue;
+	if (e_ident[EI_CLASS] == ELFCLASS32)
+		printf("%#x\n", (unsigned int)e_entry);
 
-	/* Print the entry point address */
-	for (; i >= 0; i--)
-		printf(i == size - 1 ? "%x" : "%02x", ptr[i]);
-
-	printf("\n");
+	else
+		printf("%#lx\n", e_entry);
 }
 
 /**

@@ -272,9 +272,7 @@ void print_entry(Elf64_Ehdr header)
 
 	printf("  Entry point address:               0x");
 
-	int size = (header.e_ident[EI_CLASS] == ELFCLASS32) ? 4 : 8;
-
-	for (int i = 0; i < size; i++)
+	for (i = 0; i < size; i++)
 		printf(i == size - 1 ? "%x" : "%02x", ptr[i]);
 
 	printf("\n");

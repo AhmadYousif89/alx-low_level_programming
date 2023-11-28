@@ -224,7 +224,6 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 {
 	int i, fd;
 	ssize_t bytes;
-	char *filename;
 	Elf64_Ehdr *header;
 
 	fd = open(argv[1], O_RDONLY);
@@ -255,7 +254,8 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 	{
 		free(header);
 		close(fd);
-		handle_err(ErrOnMatch, filename, 0);
+		dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
+		exit(98);
 	}
 	/* Display ELF header information */
 	printf("ELF Header:\n");

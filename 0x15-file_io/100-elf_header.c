@@ -8,7 +8,6 @@
 #define ErrOnClose "Error: Closing file descriptor: %i\n"
 #define ErrOnMalloc "Error: Memory allocation failed for ELF header in file: %s\n"
 
-void print_magic(unsigned char *e_ident);
 void print_class(unsigned char *e_ident);
 void print_data(unsigned char *e_ident);
 void print_version(unsigned char *e_ident);
@@ -213,21 +212,6 @@ void close_elf(int elf)
 				"Error: Can't close fd %d\n", elf);
 		exit(98);
 	}
-}
-
-/**
- * handle_err - Helper function to handle errors
- * @message: the error message to print upon exit
- * @p_arg: pointer to print optional argument
- * @n_arg: number to print optional argument
- */
-void handle_err(const char *message, const void *p_arg, int n_arg)
-{
-	if (n_arg)
-		dprintf(STDERR_FILENO, message, n_arg);
-	else
-		dprintf(STDERR_FILENO, message, p_arg);
-	exit(98);
 }
 
 /**

@@ -209,20 +209,31 @@ void print_type(Elf64_Ehdr header)
  */
 void print_entryaddrs(Elf64_Ehdr header)
 {
+	int i = 0, x = 0;
 	unsigned char *ptr = (unsigned char *)&header.e_entry;
-	int size = (header.e_ident[EI_CLASS] == ELFCLASS32) ? 4 : 8;
-	int i;
 
 	printf("  Entry point address:               0x");
 
-	/* Determine the first non-zero byte index */
-	for (i = size - 1; i >= 0 && !ptr[i]; i--)
-		continue;
+	if (header.e_ident[EI_CLASS] == ELFDATA2LSB)
+	{
+		i = header.e_ident[EI_CLASS] == ELFCLASS32 ? 3 : 7;
 
-	/* Print the entry point address */
-	for (; i >= 0; i--)
-		printf(i == size - 1 ? "%x" : "%02x", ptr[i]);
-
+		while (!ptr[i])
+			i--;
+		printf("%x", ptr[i--]);
+		for (; i >= 0; i--)
+			printf("%02x", ptr[i]);
+	}
+	else
+	{
+		i = 0;
+		x = header.e_ident[EI_CLASS] == ELFCLASS32 ? 3 : 7;
+		while (!ptr[i])
+			i++;
+		printf("%x", ptr[i++]);
+		for (; i <= x; i++)
+			printf("%02x", ptr[i]);
+	}
 	printf("\n");
 }
 

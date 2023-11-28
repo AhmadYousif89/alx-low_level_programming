@@ -224,19 +224,27 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 {
 	int i, fd;
 	ssize_t bytes;
+	char *filename;
 	Elf64_Ehdr *header;
+	/* Second argument not specified */
+	if (argc != 2)
+	{
+		dprintf(STDERR_FILENO, "%s", USAGE);
+		exit(98);
+	}
 
-	fd = open(argv[1], O_RDONLY);
+	filename = argv[1];
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", filename);
 		exit(98);
 	}
 	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)
 	{
 		close_elf(fd);
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", filename);
 		exit(98);
 	}
 	bytes = read(fd, header, sizeof(Elf64_Ehdr));
@@ -244,7 +252,7 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 	{
 		free(header);
 		close_elf(fd);
-		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
+		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", filename);
 		exit(98);
 	}
 

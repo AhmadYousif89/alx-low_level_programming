@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
 	if (bytes != sizeof(header) || bytes < 1)
 		handle_err(ErrOnRead, filename, 0);
 	/* Check if it's a valid ELF file */
-	if (header.e_ident[EI_MAG0] != 0x7f ||
-		strncmp((char *)&header.e_ident[EI_MAG1], "ELF", 3) != 0)
+	if (header.e_ident[ELFMAG0] != 0x7f ||
+		strncmp((char *)&header.e_ident[ELFMAG1], "ELF", 3) != 0)
 		handle_err(ErrOnMatch, filename, 0);
 	/* Display ELF header information */
 	printf("ELF Header:\n");

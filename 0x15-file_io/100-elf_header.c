@@ -1,6 +1,13 @@
 #include "main.h"
 #include <elf.h>
 
+#define USAGE "Usage: Missing [ELF_PATH]\n"
+#define ErrOnOpen "Error: Can't open file: %s\n"
+#define ErrOnRead "Error: Can't read from file: %s\n"
+#define ErrOnMatch "Error: Not an ELF file: %s\n"
+#define ErrOnClose "Error: Closing file descriptor: %i\n"
+#define ErrOnMalloc "Error: Memory allocation failed for ELF header in file: %s\n"
+
 void print_magic(unsigned char *e_ident);
 void print_class(unsigned char *e_ident);
 void print_data(unsigned char *e_ident);
@@ -9,6 +16,7 @@ void print_abi(unsigned char *e_ident);
 void print_osabi(unsigned char *e_ident);
 void print_type(unsigned int e_type, unsigned char *e_ident);
 void print_entry(unsigned long int e_entry, unsigned char *e_ident);
+void handle_err(const char *message, const void *p_arg, int n_arg);
 void close_elf(int elf);
 
 /**
@@ -231,6 +239,21 @@ void close_elf(int elf)
 }
 
 /**
+ * handle_err - Helper function to handle errors
+ * @message: the error message to print upon exit
+ * @p_arg: pointer to print optional argument
+ * @n_arg: number to print optional argument
+ */
+void handle_err(const char *message, const void *p_arg, int n_arg)
+{
+	if (n_arg)
+		dprintf(STDERR_FILENO, message, n_arg);
+	else
+		dprintf(STDERR_FILENO, message, p_arg);
+	exit(98);
+}
+
+/**
  * main - Displays the information contained in the
  *        ELF header at the start of an ELF file.
  * @argc: The number of arguments supplied to the program.
@@ -243,30 +266,36 @@ void close_elf(int elf)
  */
 int main(int __attribute__((__unused__)) argc, char *argv[])
 {
+	int i, fd;
+	ssize_t bytes;
+	char *filename;
 	Elf64_Ehdr *header;
-	int o, r;
+	/* Second argument not specified */
+	if (argc != 2)
+		handle_err(USAGE, NULL, 0);
 
-	o = open(argv[1], O_RDONLY);
-	if (o == -1)
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
-		exit(98);
+		free(header);
+		handle_err(ErrOnOpen, filename, 0);
 	}
 	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)
 	{
-		close_elf(o);
+		close_elf(fd);
 		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
 		exit(98);
 	}
-	r = read(o, header, sizeof(Elf64_Ehdr));
-	if (r == -1)
+	bytes = read(fd, header, sizeof(Elf64_Ehdr));
+	if (bytes == -1)
 	{
 		free(header);
-		close_elf(o);
+		close_elf(fd);
 		dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
 		exit(98);
 	}
+	/* Check if it's a valid ELF file */
 	if (header->e_ident[EI_MAG0] != 0x7f ||
 		strncmp((char *)&header->e_ident[EI_MAG1], "ELF", 3) != 0)
 	{
@@ -286,6 +315,6 @@ int main(int __attribute__((__unused__)) argc, char *argv[])
 	print_entry(header->e_entry, header->e_ident);
 
 	free(header);
-	close_elf(o);
+	close_elf(fd);
 	return (0);
 }

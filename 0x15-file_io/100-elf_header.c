@@ -1,7 +1,7 @@
 #include "main.h"
 #include <elf.h>
 
-#define USAGE "Usage: elf_header elf_filename\n"
+#define USAGE "Usage: Missing [ELF_PATH]\n"
 #define ErrOnOpen "Error: Can't open file: %s\n"
 #define ErrOnRead "Error: Can't read from file: %s\n"
 #define ErrOnMatch "Error: Not an ELF file: %s\n"
@@ -9,12 +9,12 @@
 
 void print_data(Elf64_Ehdr header);
 void print_abiv(Elf64_Ehdr header);
-void print_type(Elf64_Ehdr header);
 void print_class(Elf64_Ehdr header);
 void print_osabi(Elf64_Ehdr header);
 void print_version(Elf64_Ehdr header);
 void print_more_osabi(Elf64_Ehdr header);
-void print_entryaddrs(Elf64_Ehdr header);
+void print_type(int e_type, unsigned char *e_ident);
+void print_entry(long unsigned int e_entry, unsigned char *e_ident);
 
 /**
  * main - Display the information contained in the ELF header
@@ -42,25 +42,25 @@ int main(int argc, char *argv[])
 	if (bytes != sizeof(h) || bytes < 1)
 		dprintf(STDERR_FILENO, ErrOnRead, filename), exit(98);
 	/* Check if it's a valid ELF file */
-	if (h.e_ident[0] != 0x7f ||
-		strncmp((char *)&h.e_ident[1], "ELF", 3) != 0)
+	if (h.e_ident[EI_MAG0] != 0x7f ||
+		strncmp((char *)&h.e_ident[EI_MAG1], "ELF", 3) != 0)
 		dprintf(STDERR_FILENO, ErrOnMatch, filename), exit(98);
 	/* Display ELF header information */
 	printf("ELF Header:\n");
 	printf("  Magic:   ");
 	for (i = 0; i < EI_NIDENT; i++)
 		printf("%02x%s", h.e_ident[i], i == EI_NIDENT - 1 ? "\n" : " ");
-
-	print_class(h);
 	print_data(h);
-	print_version(h);
-	print_osabi(h);
 	print_abiv(h);
-	print_type(h);
-	print_entryaddrs(h);
+	print_class(h);
+	print_osabi(h);
+	print_version(h);
+	print_type(h.e_type, h.e_ident);
+	print_entry(h.e_entry, h.e_ident);
 
 	if (close(fd))
 		dprintf(STDERR_FILENO, ErrOnClose, fd), exit(98);
+
 	return (0);
 }
 
@@ -82,6 +82,8 @@ void print_class(Elf64_Ehdr header)
 	case ELFCLASSNONE:
 		printf("none");
 		break;
+	default:
+		printf("<unknown: %x>\n", header.e_ident[EI_CLASS]);
 	}
 	printf("\n");
 }
@@ -104,6 +106,8 @@ void print_data(Elf64_Ehdr header)
 	case ELFDATANONE:
 		printf("none");
 		break;
+	default:
+		printf("<unknown: %x>\n", header.e_ident[EI_CLASS]);
 	}
 	printf("\n");
 }
@@ -120,9 +124,6 @@ void print_version(Elf64_Ehdr header)
 	{
 	case EV_CURRENT:
 		printf("%s", " (current)");
-		break;
-	case EV_NONE:
-		printf("%s", "");
 		break;
 	}
 	printf("\n");
@@ -176,6 +177,9 @@ void print_more_osabi(Elf64_Ehdr header)
 {
 	switch (header.e_ident[EI_OSABI])
 	{
+	case ELFOSABI_GNU:
+		printf("%s", "GNU Hurd");
+		break;
 	case ELFOSABI_ARM:
 		printf("%s", "ARM");
 		break;
@@ -183,7 +187,7 @@ void print_more_osabi(Elf64_Ehdr header)
 		printf("%s", "UNIX - TRU64");
 		break;
 	case ELFOSABI_MODESTO:
-		printf("%s", "Novall - Modesto");
+		printf("%s", "Novell - Modesto");
 		break;
 	case ELFOSABI_OPENBSD:
 		printf("%s", "UNIX - OpenBSD");
@@ -209,18 +213,17 @@ void print_abiv(Elf64_Ehdr header)
 
 /**
  * print_type - .
- * @header: ELF header struct
+ * @e_type: The ELF type value obtained from the ELF header.
+ * @e_ident: A pointer to an array containing the ELF identification bytes.
  */
-void print_type(Elf64_Ehdr header)
+void print_type(int e_type, unsigned char *e_ident)
 {
-	int t = 0;
-	char *ptr = (char *)&header.e_type;
-
 	printf("  Type:                              ");
-	if (header.e_ident[EI_DATA] == ELFDATA2MSB)
-		t = 1;
 
-	switch (ptr[t])
+	if (e_ident[EI_DATA] == ELFDATA2MSB)
+		e_type >>= 8;
+
+	switch (e_type)
 	{
 	case ET_NONE:
 		printf("%s", "NONE (None)");
@@ -238,21 +241,22 @@ void print_type(Elf64_Ehdr header)
 		printf("%s", "DYN (Shared Object file)");
 		break;
 	default:
-		printf("<unknown: %x>", ptr[t]);
+		printf("<unknown: %x>", e_type);
 		break;
 	}
 	printf("\n");
 }
 
 /**
- * print_entryaddrs - .
- * @header: ELF header struct
+ * print_entry - .
+ * @e_entry: The entry point address obtained from the ELF header.
+ * @e_ident: A pointer to an array containing the ELF identification bytes.
  */
-void print_entryaddrs(Elf64_Ehdr header)
+void print_entry(long unsigned int e_entry, unsigned char *e_ident)
 {
-	unsigned char *ptr = (unsigned char *)&header.e_entry;
-	int size = (header.e_ident[EI_CLASS] == ELFCLASS32) ? 4 : 8;
 	int i;
+	unsigned char *ptr = (unsigned char *)&e_entry;
+	int size = (e_ident[EI_CLASS] == ELFCLASS32) ? 4 : 8;
 
 	printf("  Entry point address:               0x");
 

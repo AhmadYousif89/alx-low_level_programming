@@ -248,10 +248,8 @@ int main(int argc, char *argv[])
 	filename = argv[1];
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", filename);
-		exit(98);
-	}
+		handle_err(ErrOnOpen, filename, 0);
+
 	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)
 	{

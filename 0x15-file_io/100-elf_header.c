@@ -272,12 +272,9 @@ void print_entry(Elf64_Ehdr header)
 
 	printf("  Entry point address:               0x");
 
-	/* Determine the first non-zero byte index */
-	for (i = size - 1; i >= 0 && !ptr[i]; i--)
-		continue;
+	int size = (header.e_ident[EI_CLASS] == ELFCLASS32) ? 4 : 8;
 
-	/* Print the entry point address */
-	for (; i >= 0; i--)
+	for (int i = 0; i < size; i++)
 		printf(i == size - 1 ? "%x" : "%02x", ptr[i]);
 
 	printf("\n");

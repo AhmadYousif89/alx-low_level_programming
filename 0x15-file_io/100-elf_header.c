@@ -259,18 +259,14 @@ int main(int argc, char *argv[])
 	if (bytes < 1 || bytes != sizeof(Elf64_Ehdr))
 	{
 		free(header);
-		close(fd);
 		handle_err(ErrOnRead, filename, 0);
 	}
-
 	/* Check if it's a valid ELF file */
 	if (header->e_ident[EI_MAG0] != 0x7f ||
 		strncmp((char *)&header->e_ident[EI_MAG1], "ELF", 3) != 0)
 	{
 		free(header);
-		close(fd);
-		dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
-		exit(98);
+		handle_err(ErrOnMatch, filename, 0);
 	}
 	/* Display ELF header information */
 	printf("ELF Header:\n");

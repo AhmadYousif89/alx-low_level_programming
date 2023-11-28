@@ -14,7 +14,7 @@ void print_osabi(Elf64_Ehdr header);
 void print_version(Elf64_Ehdr header);
 void print_more_osabi(Elf64_Ehdr header);
 void print_type(int e_type, unsigned char *e_ident);
-void print_entry(long unsigned int e_entry, unsigned char *e_ident);
+void print_entry(unsigned long int e_entry, unsigned char *e_ident);
 
 /**
  * main - Display the information contained in the ELF header
@@ -252,7 +252,7 @@ void print_type(int e_type, unsigned char *e_ident)
  * @e_entry: The entry point address obtained from the ELF header.
  * @e_ident: A pointer to an array containing the ELF identification bytes.
  */
-void print_entry(long unsigned int e_entry, unsigned char *e_ident)
+void print_entry(unsigned long int e_entry, unsigned char *e_ident)
 {
 	int i;
 	unsigned char *ptr = (unsigned char *)&e_entry;

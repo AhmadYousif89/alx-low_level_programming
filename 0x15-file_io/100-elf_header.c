@@ -220,7 +220,7 @@ void close_elf(int elf)
  * @argv: array of strings containing the command-line arguments.
  * Return: Always (0)
  */
-int main(int __attribute__((__unused__)) argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	int i, fd;
 	ssize_t bytes;

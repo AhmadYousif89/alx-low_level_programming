@@ -272,11 +272,11 @@ int main(int argc, char *argv[])
 	printf("ELF Header:\n  Magic:   ");
 	for (i = 0; i < EI_NIDENT; i++)
 		printf("%02x%s", header->e_ident[i], i == EI_NIDENT - 1 ? "\n" : " ");
-	print_abi(header->e_ident);
-	print_data(header->e_ident);
 	print_class(header->e_ident);
-	print_osabi(header->e_ident);
+	print_data(header->e_ident);
 	print_version(header->e_ident);
+	print_osabi(header->e_ident);
+	print_abi(header->e_ident);
 	print_type(header->e_type, header->e_ident);
 	print_entry(header->e_entry, header->e_ident);
 

@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 		handle_err(ErrOnRead, filename, 0);
 	}
 	/* Check if it's a valid ELF file */
-	if (header->e_ident[EI_MAG0] != 0x7f ||
+	if (header->e_ident[EI_MAG0] != 0x7f &&
 		strncmp((char *)&header->e_ident[EI_MAG1], "ELF", 3) != 0)
 	{
 		free(header);

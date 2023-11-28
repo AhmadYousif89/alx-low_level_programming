@@ -282,7 +282,10 @@ int main(int argc, char *argv[])
 
 	free(header);
 	if (close(fd) == -1)
-		handle_err(ErrOnClose, 0, fd);
-
+	{
+		dprintf(STDERR_FILENO,
+				"Error: Can't close fd %d\n", fd);
+		exit(98);
+	}
 	return (0);
 }

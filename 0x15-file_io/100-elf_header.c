@@ -240,17 +240,18 @@ int main(int argc, char *argv[])
 {
 	int i, fd;
 	ssize_t bytes;
-	char *filename;
 	Elf64_Ehdr *header;
 	/* Second argument not specified */
 	if (argc != 2)
 		handle_err(USAGE, NULL, 0);
 
-	filename = argv[1];
 	/* Open the ELF file */
-	fd = open(filename, O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		handle_err(ErrOnOpen, filename, 0);
+	{
+		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		exit(98);
+	}
 	/* Allocate memory for the ELF header */
 	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)

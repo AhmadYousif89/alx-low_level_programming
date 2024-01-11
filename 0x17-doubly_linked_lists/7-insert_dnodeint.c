@@ -38,7 +38,7 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 			return (NULL);
 		}
 	}
-	/* Insert the new node and prev pointers of the new node */
+	/* Insert and update next and prev pointers of the new node */
 	new->prev = current;
 	new->next = current->next;
 	if (current->next) /* Case it was the last node */

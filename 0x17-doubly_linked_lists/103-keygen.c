@@ -13,38 +13,35 @@
  */
 void generate_key(const char *username, char *key)
 {
-	size_t i, add, len;
-	unsigned int b, sum_squares;
-
-	len = strlen(username);
+	size_t len = strlen(username);
 
 	key[0] = ALPHABET[(len ^ 59) & 63];
 
-	add = 0;
+	size_t add = 0;
 	for (size_t i = 0; i < len; i++)
 		add += username[i];
 	key[1] = ALPHABET[(add ^ 79) & 63];
 
-	b = 1;
-	for (i = 0; i < len; i++)
+	unsigned int b = 1;
+	for (size_t i = 0; i < len; i++)
 		b *= username[i];
 	key[2] = ALPHABET[(b ^ 85) & 63];
 
 	b = (unsigned int)username[0];
-	for (i = 0; i < len; i++)
+	for (size_t i = 0; i < len; i++)
 		if ((char)b <= username[i])
 			b = username[i];
 
 	srand(b ^ 14);
 	key[3] = ALPHABET[rand() & 63];
 
-	sum_squares = 0;
-	for (i = 0; i < len; i++)
+	unsigned int sum_squares = 0;
+	for (size_t i = 0; i < len; i++)
 		sum_squares += username[i] * username[i];
 	key[4] = ALPHABET[(sum_squares ^ 239) & 63];
 
 	b = 0;
-	for (i = 0; (char)i < username[0]; i++)
+	for (size_t i = 0; (char)i < username[0]; i++)
 		b = rand();
 	key[5] = ALPHABET[(b ^ 229) & 63];
 }

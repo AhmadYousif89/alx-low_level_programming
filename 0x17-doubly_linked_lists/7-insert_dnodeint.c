@@ -17,7 +17,7 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 	new->n = n;
 	new->next = NULL;
 	new->prev = NULL;
-	/* Insert at the beginning of the list if idx = 0 */
+	/* Insert at the beginning of the list if idx = 0 or list is empty */
 	if (idx == 0 || !*h)
 	{
 		new->next = *h;
@@ -32,7 +32,7 @@ dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 	{
 		current = current->next;
 		idx--;
-		if (!current) /* If last node is NULL */
+		if (!current) /* last node is NULL or idx is out of range */
 		{
 			free(new);
 			return (NULL);

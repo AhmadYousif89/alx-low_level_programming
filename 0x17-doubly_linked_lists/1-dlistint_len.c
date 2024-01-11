@@ -8,7 +8,7 @@
 size_t dlistint_len(const dlistint_t *h)
 {
 	const dlistint_t *ptr = h;
-	int count = 0;
+	size_t count = 0;
 
 	if (!h)
 		return (0);

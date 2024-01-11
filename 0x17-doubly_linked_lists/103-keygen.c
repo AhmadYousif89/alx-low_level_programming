@@ -5,6 +5,7 @@
 
 #define ALPHABET "A-CHRDw87lNS0E9B2TibgpnMVys5XzvtOGJcYLU+4mjW6fxqZeF3Qa1rPhdKIouk"
 #define KEY_LENGTH 6
+#define MAX_INDEX 63
 
 /**
  * generate_key - Generate a key based on the given username
@@ -14,32 +15,32 @@
 void generate_key(const char *username, char *key)
 {
 	size_t len, add;
-	unsigned int i, b;
+	unsigned int i, acc;
 
 	len = strlen(username);
-	key[0] = ALPHABET[(len ^ 59) & 63];
+	key[0] = ALPHABET[(len ^ 59) & MAX_INDEX];
 	for (i = 0, add = 0; i < len; i++)
 		add += username[i];
 
-	key[1] = ALPHABET[(add ^ 79) & 63];
-	for (i = 0, b = 1; i < len; i++)
-		b *= username[i];
+	key[1] = ALPHABET[(add ^ 79) & MAX_INDEX];
+	for (i = 0, acc = 1; i < len; i++)
+		acc *= username[i];
 
-	key[2] = ALPHABET[(b ^ 85) & 63];
-	for (b = username[0], i = 0; i < len; i++)
-		if ((char)b <= username[i])
-			b = username[i];
+	key[2] = ALPHABET[(acc ^ 85) & MAX_INDEX];
+	for (acc = username[0], i = 0; i < len; i++)
+		if ((char)acc <= username[i])
+			acc = username[i];
 
-	srand(b ^ 14);
-	key[3] = ALPHABET[rand() & 63];
-	for (b = 0, i = 0; i < len; i++)
-		b += username[i] * username[i];
+	srand(acc ^ 14);
+	key[3] = ALPHABET[rand() & MAX_INDEX];
+	for (acc = 0, i = 0; i < len; i++)
+		acc += username[i] * username[i];
 
-	key[4] = ALPHABET[(b ^ 239) & 63];
-	for (b = 0, i = 0; (char)i < username[0]; i++)
-		b = rand();
+	key[4] = ALPHABET[(acc ^ 239) & MAX_INDEX];
+	for (acc = 0, i = 0; (char)i < username[0]; i++)
+		acc = rand();
 
-	key[5] = ALPHABET[(b ^ 229) & 63];
+	key[5] = ALPHABET[(acc ^ 229) & MAX_INDEX];
 }
 
 /**

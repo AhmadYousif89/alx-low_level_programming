@@ -14,6 +14,7 @@
 		"stdarg.h": "c",
 		"variadic_functions.h": "c",
 		"lists.h": "c",
-		"stat.h": "c"
+		"stat.h": "c",
+		"main.h": "c"
 	}
 }

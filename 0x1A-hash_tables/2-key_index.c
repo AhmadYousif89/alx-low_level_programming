@@ -8,11 +8,7 @@
  */
 __uint64_t key_index(const unsigned char *key, __uint64_t size)
 {
-	__uint64_t index;
-
 	if (key == NULL || size == 0)
 		return (0);
-	index = hash_djb2(key) % size;
-
-	return (index);
+	return (hash_djb2(key) % size);
 }

@@ -1,0 +1,25 @@
+CC = gcc
+SRC = main.c school.c
+OBJ = $(SRC:.c=.o)
+NAME = school
+RM = rm -f
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	$(CC) -o $@ $^
+# Rule to compile source files
+%.o: %.c
+	$(CC) -c -o $@ $<
+# Rule to clean Emacs and Vim temporary files and the executable
+clean:
+	$(RM) *~ \#*\# $(NAME)
+# Rule to clean object files
+oclean:
+	$(RM) $(OBJ)
+# Rule to clean Emacs and Vim temporary files, the executable, and object files
+fclean: clean oclean
+# Rule to force recompilation of all source files
+re: fclean all
+# Ensure clean, oclean, fclean, re rules never fail
+.PHONY: all clean oclean fclean re

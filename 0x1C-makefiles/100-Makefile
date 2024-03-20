@@ -1,12 +1,8 @@
 CC = gcc
-
-SRC = main.c file1.c file2.c
-
-OBJ = $(SRC:.c=.o)
-
-NAME = school
-
 CFLAGS = -Wall -Werror -Wextra -pedantic
+SRC = main.c school.c
+OBJ = $(SRC:.c=.o)
+NAME = school
 
 all: $(NAME)
 
@@ -17,7 +13,6 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	@$(RM) *~ \#*\#
 	@$(RM) $(NAME)
 
 oclean:

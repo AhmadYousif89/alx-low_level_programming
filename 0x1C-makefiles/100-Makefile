@@ -4,13 +4,8 @@ SRC = main.c school.c
 OBJ = $(SRC:.c=.o)
 NAME = school
 
-all: $(NAME)
-
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^
-
-%.o: %.c m.h
-	$(CC) $(CFLAGS) -c -o $@ $<
+all: m.h $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME)
 
 clean:
 	@$(RM) $(NAME)

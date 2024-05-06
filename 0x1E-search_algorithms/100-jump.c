@@ -1,5 +1,4 @@
 #include "search_algos.h"
-#define min(a, b) (((a) < (b)) ? (a) : (b))
 
 /**
  * jump_search - searches for a value in an array of integers.
